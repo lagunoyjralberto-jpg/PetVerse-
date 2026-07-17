@@ -7,8 +7,7 @@ function startAdventure() {
         <button onclick="enterForest('Mage')">🧙 Mage</button><br><br>
 
         <button onclick="enterForest('Archer')">🏹 Archer</button>
-    `;
-}
+    
 
 function enterForest(hero) {
     document.body.innerHTML = `
