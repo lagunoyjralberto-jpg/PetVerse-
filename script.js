@@ -53,12 +53,24 @@ function chooseHero() {
 
         <p>💰 Gold: 0</p>
 
-        <button onclick="alert('Coming Soon!')">🌲 Explore</button><br><br>
+        <button onclick="explore()">🌲 Explore</button>
 
         <button onclick="alert('Coming Soon!')">🎒 Inventory</button><br><br>
 
         <button onclick="alert('Coming Soon!')">🐾 Pet</button><br><br>
 
         <button onclick="alert('Coming Soon!')">🏰 Guild</button>
+    `;
+}function explore() {
+    document.body.innerHTML = `
+        <h1>🌲 Whispering Forest</h1>
+
+        <h2>🐺 A Wild Wolf Appeared!</h2>
+
+        <p>❤️ Wolf HP: 30</p>
+
+        <button onclick="alert('Battle system coming next!')">⚔ Attack</button><br><br>
+
+        <button onclick="alert('You escaped safely!')">🏃 Run</button>
     `;
 }
