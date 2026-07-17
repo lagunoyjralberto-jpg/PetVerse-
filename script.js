@@ -1,19 +1,22 @@
-function startAdventure() {
+function chooseHero() {
     document.body.innerHTML = `
-        <h1>Choose Your Hero</h1>
+        <h1>⚔ Choose Your Hero</h1>
 
-        <button onclick="enterForest('Warrior')">⚔️ Warrior</button><br><br>
+        <button onclick="enterWorld('Warrior')">⚔ Warrior</button><br><br>
 
-        <button onclick="enterForest('Mage')">🧙 Mage</button><br><br>
+        <button onclick="enterWorld('Mage')">🧙 Mage</button><br><br>
 
-        <button onclick="enterForest('Archer')">🏹 Archer</button>
-    
+        <button onclick="enterWorld('Assassin')">🗡 Assassin</button><br><br>
 
-function enterForest(hero) {
+        <button onclick="enterWorld('Archer')">🏹 Archer</button>
+    `;
+}
+
+function enterWorld(hero) {
     document.body.innerHTML = `
-        <h1>🌲 Whispering Forest</h1>
+        <h1>🌍 PetVerse Alpha</h1>
 
-        <h2>👤 Hero: ${hero}</h2>
+        <h2>Hero: ${hero}</h2>
 
         <p>❤️ HP: 100 / 100</p>
 
@@ -21,10 +24,14 @@ function enterForest(hero) {
 
         <p>🐾 Pet: None</p>
 
-        <hr>
+        <p>💰 Gold: 0</p>
 
-        <p>You hear birds singing in the distance...</p>
+        <button onclick="alert('Coming Soon!')">🚶 Explore</button>
 
-        <button>🔍 Explore</button>
+        <button onclick="alert('Coming Soon!')">🎒 Inventory</button>
+
+        <button onclick="alert('Coming Soon!')">🐾 Pet</button>
+
+        <button onclick="alert('Coming Soon!')">🏰 Guild</button>
     `;
 }
