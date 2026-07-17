@@ -14,8 +14,18 @@ function enterForest(hero) {
     document.body.innerHTML = `
         <h1>🌲 Whispering Forest</h1>
 
-        <h2>Welcome, ${hero}!</h2>
+        <h2>👤 Hero: ${hero}</h2>
 
-        <p>Your adventure begins here...</p>
+        <p>❤️ HP: 100 / 100</p>
+
+        <p>⭐ Level: 1</p>
+
+        <p>🐾 Pet: None</p>
+
+        <hr>
+
+        <p>You hear birds singing in the distance...</p>
+
+        <button>🔍 Explore</button>
     `;
 }
