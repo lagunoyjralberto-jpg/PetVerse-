@@ -61,7 +61,8 @@ function chooseHero() {
 
         <button onclick="alert('Coming Soon!')">🏰 Guild</button>
     `;
-}function explore() {
+}
+function explore() {
     document.body.innerHTML = `
         <h1>🌲 Whispering Forest</h1>
 
