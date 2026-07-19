@@ -3,49 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>JUNAKIS: RISE OF LEGENDS</title>
 
 <style>
-body{
-margin:0;
-background:#05070d;
-color:white;
-font-family:Arial,sans-serif;
-text-align:center;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.hero{
-padding:80px 20px;
-background:linear-gradient(#0b1225,#000);
+body{
+    background:#05070d;
+    color:white;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    text-align:center;
+    width:90%;
+    max-width:700px;
 }
 
 h1{
-font-size:50px;
-color:#FFD700;
-margin-bottom:10px;
+    font-size:52px;
+    color:#FFD700;
+    margin-bottom:15px;
 }
 
 h2{
-color:#4da6ff;
-font-weight:normal;
+    color:#4da6ff;
+    margin-bottom:25px;
 }
 
 p{
-font-size:20px;
-max-width:800px;
-margin:auto;
-line-height:1.8;
+    font-size:20px;
+    line-height:1.7;
+    margin-bottom:30px;
 }
 
 button{
-margin-top:30px;
-padding:18px 40px;
-font-size:20px;
-background:#FFD700;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
+    background:#FFD700;
+    color:black;
+    border:none;
+    border-radius:12px;
+    padding:18px 40px;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:scale(1.05);
 }
 </style>
 
@@ -53,7 +66,7 @@ font-weight:bold;
 
 <body>
 
-<div class="hero">
+<div class="container">
 
 <h1>⚔️ JUNAKIS</h1>
 
@@ -64,14 +77,48 @@ Forge Your Destiny. Rise Together.
 </p>
 
 <p>
-Explore a massive fantasy world, fight alongside legendary companions,
-challenge powerful monsters, conquer kingdoms,
-and become the greatest legend in Junakis.
+Welcome to the world of Junakis. Hunt monsters, collect rare equipment,
+forge powerful weapons, build your guild, conquer nations,
+and become a living legend.
 </p>
 
-<button onclick="chooseHero()">🎮 ENTER THE WORLD</button>
+<button onclick="chooseHero()">
+🎮 ENTER THE WORLD
+</button>
 
 </div>
+
+<script>
+
+function chooseHero(){
+
+document.body.innerHTML=`
+<div class="container">
+
+<h1>⚔️ Choose Your Hero</h1>
+
+<p>Select your first class.</p>
+
+<button onclick="pickHero('Warrior')">🛡 Warrior</button><br><br>
+
+<button onclick="pickHero('Assassin')">🗡 Assassin</button><br><br>
+
+<button onclick="pickHero('Mage')">🔮 Mage</button><br><br>
+
+<button onclick="pickHero('Archer')">🏹 Archer</button>
+
+</div>
+`;
+
+}
+
+function pickHero(hero){
+
+alert("You selected: " + hero);
+
+}
+
+</script>
 
 </body>
 </html>
