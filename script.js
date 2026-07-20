@@ -1,81 +1,101 @@
 
+   // =====================================
+// JUNAKIS : RISE OF LEGENDS
+// Alpha 0.1
+// =====================================
+
+// Player Data
+let hero = "";
+let level = 1;
+let exp = 0;
+
+let hp = 100;
+let maxHp = 100;
+let attack = 10;
+
+let gold = 0;
+let pet = "None";
+
+// Main Menu
 function chooseHero() {
+
     document.body.innerHTML = `
-        <h1>⚔️ JUNAKIS: RISE OF LEGENDS</h1>
 
-        <h2>Choose Your Legend</h2>
+    <h1>⚔️ JUNAKIS : RISE OF LEGENDS ⚔️</h1>
 
-        <button onclick="enterWorld('Guardian')">🛡️ Guardian</button><br><br>
+    <h2>Choose Your Hero</h2>
 
-        <button onclick="enterWorld('Arcane Sage')">🔮 Arcane Sage</button><br><br>
+    <button onclick="enterWorld('Warrior')">⚔ Warrior</button><br><br>
 
-        <button onclick="enterWorld('Shadow Blade')">🗡️ Shadow Blade</button><br><br>
+    <button onclick="enterWorld('Mage')">🧙 Mage</button><br><br>
 
-        <button onclick="enterWorld('Ranger')">🏹 Ranger</button>
+    <button onclick="enterWorld('Assassin')">🗡 Assassin</button><br><br>
+
+    <button onclick="enterWorld('Archer')">🏹 Archer</button>
+
     `;
 }
 
-function enterWorld(hero) {
+// Enter World
+function enterWorld(heroName){
 
-    let hp = 100;
-    let atk = 10;
+    hero = heroName;
 
-    if (hero == "Guardian") {
+    if(hero=="Warrior"){
+        maxHp = 150;
         hp = 150;
-        atk = 15;
+        attack = 15;
     }
 
-    if (hero == "Arcane Sage") {
+    if(hero=="Mage"){
+        maxHp = 80;
         hp = 80;
-        atk = 25;
+        attack = 25;
     }
 
-    if (hero == "Shadow Blade") {
+    if(hero=="Assassin"){
+        maxHp = 90;
         hp = 90;
-        atk = 20;
+        attack = 20;
     }
 
-    if (hero == "Ranger") {
+    if(hero=="Archer"){
+        maxHp = 100;
         hp = 100;
-        atk = 18;
+        attack = 18;
     }
 
-    document.body.innerHTML = `
-        <h1>⚔️ JUNAKIS: RISE OF LEGENDS</h1>
+    showWorld();
 
-        <h2>${hero}</h2>
-
-        <p>❤️ HP: ${hp}</p>
-
-        <p>⚔️ Attack: ${atk}</p>
-
-        <p>⭐ Level: 1</p>
-
-        <p>🐾 Companion: None</p>
-
-        <p>💰 Gold: 100</p>
-
-        <button onclick="explore()">🌲 Explore</button><br><br>
-
-        <button onclick="alert('Inventory Coming Soon!')">🎒 Inventory</button><br><br>
-
-        <button onclick="alert('Companion System Coming Soon!')">🐾 Companion</button><br><br>
-
-        <button onclick="alert('Guild System Coming Soon!')">🏰 Guild</button>
-    `;
 }
 
-function explore() {
-    document.body.innerHTML = `
-        <h1>🌲 Emerald Forest</h1>
+// World Screen
+function showWorld(){
 
-        <h2>🐺 A Dire Wolf Appeared!</h2>
+document.body.innerHTML = `
 
-        <p>❤️ Dire Wolf HP: 30</p>
+<h1>🌍 JUNAKIS : RISE OF LEGENDS</h1>
 
-        <button onclick="alert('Battle System Coming in Alpha v0.3!')">⚔️ Attack</button><br><br>
+<h2>${hero}</h2>
 
-        <button onclick="alert('You escaped safely!')">🏃 Escape</button>
-    `;
+<p>❤️ HP : ${hp}/${maxHp}</p>
+
+<p>⚔ Attack : ${attack}</p>
+
+<p>⭐ Level : ${level}</p>
+
+<p>✨ EXP : ${exp}</p>
+
+<p>💰 Gold : ${gold}</p>
+
+<p>🐾 Pet : ${pet}</p>
+
+<br>
+
+<h3>🌲 Whispering Forest</h3>
+
+<p>Movement and Battle System coming next...</p>
+
+`;
+
 }
-   
