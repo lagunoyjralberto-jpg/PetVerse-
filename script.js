@@ -96,6 +96,23 @@ document.body.innerHTML = `
 
 <p>Movement and Battle System coming next...</p>
 
+// =====================================
+// Player Data
+// =====================================
+
+let hero = "";
+let level = 1;
+let exp = 0;
+
+let hp = 100;
+let maxHp = 100;
+let attack = 10;
+
+let gold = 0;
+let pet = "None";
+
+let playerX = 5;
+let playerY = 5;
 `;
 
 }
