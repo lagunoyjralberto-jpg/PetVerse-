@@ -1,4 +1,4 @@
-
+alert("NEW SCRIPT LOADED");
    // =====================================
 // JUNAKIS : RISE OF LEGENDS
 // Alpha 0.1
