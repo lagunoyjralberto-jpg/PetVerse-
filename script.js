@@ -2,7 +2,7 @@
 // JUNAKIS : RISE OF LEGENDS
 // script.js
 // Main Game Controller
-// Alpha 0.3
+// Alpha 0.4
 // =====================================
 
 
@@ -26,7 +26,6 @@ function chooseHero() {
 
         </header>
 
-
         <main>
 
             <section class="hero-section">
@@ -38,13 +37,11 @@ function chooseHero() {
                 in the world of JUNAKIS.
                 </p>
 
-
                 <button onclick="startGame('Warrior')">
                     ⚔️ WARRIOR
                 </button>
 
                 <br><br>
-
 
                 <button onclick="startGame('Mage')">
                     🧙 MAGE
@@ -52,13 +49,11 @@ function chooseHero() {
 
                 <br><br>
 
-
                 <button onclick="startGame('Assassin')">
                     🗡️ ASSASSIN
                 </button>
 
                 <br><br>
-
 
                 <button onclick="startGame('Archer')">
                     🏹 ARCHER
@@ -111,10 +106,7 @@ function showGameWorld() {
 
         </header>
 
-
         <main>
-
-            <!-- PLAYER STATUS -->
 
             <section class="hero-section">
 
@@ -173,7 +165,6 @@ function showGameWorld() {
                 Y: ${player.y}
                 </p>
 
-
                 <button onclick="movePlayer('up')">
                     ⬆️
                 </button>
@@ -204,7 +195,6 @@ function showGameWorld() {
             <!-- GAME ACTIONS -->
 
             <section class="features">
-
 
                 <div class="feature">
 
@@ -295,7 +285,6 @@ function showGameWorld() {
 
                 </div>
 
-
             </section>
 
         </main>
@@ -320,441 +309,3 @@ function showGameWorld() {
     `;
 
 }
-
-
-// =====================================
-// BATTLE SYSTEM
-// =====================================
-
-function startBattle() {
-
-    let monster = {
-
-        name: "Forest Goblin",
-
-        hp: 50,
-
-        attack: 10
-
-    };
-
-
-    let damage = player.attack;
-
-    monster.hp -= damage;
-
-
-    if(monster.hp <= 0) {
-
-        addExp(25);
-
-        addGold(50);
-
-
-        alert(
-
-            "⚔️ VICTORY!\n\n" +
-
-            "Monster: " +
-            monster.name +
-
-            "\n\n" +
-
-            "+25 EXP\n" +
-
-            "+50 GOLD"
-
-        );
-
-    }
-
-    else {
-
-        let defeated =
-        damagePlayer(monster.attack);
-
-
-        if(defeated) {
-
-            alert(
-                "💀 YOU WERE DEFEATED!\n\n" +
-                "Returning to town..."
-            );
-
-
-            player.hp =
-            player.maxHp;
-
-        }
-
-        else {
-
-            alert(
-
-                "⚔️ BATTLE!\n\n" +
-
-                "You dealt " +
-                damage +
-                " damage.\n\n" +
-
-                "Monster HP: " +
-                monster.hp +
-                "\n\n" +
-
-                "You received " +
-                monster.attack +
-                " damage."
-
-            );
-
-        }
-
-    }
-
-
-    showGameWorld();
-
-}
-
-
-// =====================================
-// INVENTORY
-// =====================================
-
-function openInventory() {
-
-    let inventoryHTML = "";
-
-
-    if(player.inventory.length === 0) {
-
-        inventoryHTML =
-        "<p>🎒 Inventory is empty.</p>";
-
-    }
-
-    else {
-
-        player.inventory.forEach(
-        function(item) {
-
-            inventoryHTML += `
-
-            <div class="feature">
-
-                <h3>
-                ${item.name}
-                </h3>
-
-                <p>
-                Rarity:
-                ${item.rarity || "Common"}
-                </p>
-
-                <button
-                onclick='equipItem(${JSON.stringify(item)})'>
-                EQUIP
-                </button>
-
-            </div>
-
-            `;
-
-        });
-
-    }
-
-
-    document.body.innerHTML = `
-
-    <main>
-
-        <section class="hero-section">
-
-            <h1>🎒 INVENTORY</h1>
-
-            ${inventoryHTML}
-
-            <br>
-
-            <button onclick="showGameWorld()">
-            🌍 BACK TO WORLD
-            </button>
-
-        </section>
-
-    </main>
-
-    `;
-
-}
-
-
-// =====================================
-// EQUIPMENT
-// =====================================
-
-function openEquipment() {
-
-    document.body.innerHTML = `
-
-    <main>
-
-        <section class="hero-section">
-
-            <h1>🛡️ EQUIPMENT</h1>
-
-
-            <p>
-            🛡️ Armor:
-            ${getItemName(player.equipment.armor)}
-            </p>
-
-
-            <p>
-            ⚔️ Weapon:
-            ${getItemName(player.equipment.weapon)}
-            </p>
-
-
-            <p>
-            🛹 Astral Board:
-            ${getItemName(player.equipment.astralBoard)}
-            </p>
-
-
-            <p>
-            🏍️ Astral Bike:
-            ${getItemName(player.equipment.astralBike)}
-            </p>
-
-
-            <p>
-            👕 Costume:
-            ${getItemName(player.equipment.costume)}
-            </p>
-
-
-            <p>
-            💍 Accessory:
-            ${getItemName(player.equipment.accessory)}
-            </p>
-
-
-            <p>
-            🪽 Wings:
-            ${getItemName(player.equipment.wings)}
-            </p>
-
-
-            <br>
-
-
-            <button onclick="showGameWorld()">
-            🌍 BACK TO WORLD
-            </button>
-
-        </section>
-
-    </main>
-
-    `;
-
-}
-
-
-// =====================================
-// ITEM NAME
-// =====================================
-
-function getItemName(item) {
-
-    if(!item) {
-
-        return "Empty";
-
-    }
-
-
-    return item.name;
-
-}
-
-
-// =====================================
-// PET & MOUNT
-// =====================================
-
-function openCompanions() {
-
-    document.body.innerHTML = `
-
-    <main>
-
-        <section class="hero-section">
-
-            <h1>🐾 PETS & MOUNTS</h1>
-
-
-            <p>
-            🐾 Pet:
-            ${getItemName(player.pet)}
-            </p>
-
-
-            <p>
-            🐉 Mount:
-            ${getItemName(player.mount)}
-            </p>
-
-
-            <br>
-
-
-            <button onclick="showGameWorld()">
-            🌍 BACK TO WORLD
-            </button>
-
-        </section>
-
-    </main>
-
-    `;
-
-}
-
-
-// =====================================
-// WORLD MAP
-// =====================================
-
-function openWorldZones() {
-
-    let zonesHTML = "";
-
-
-    worldZones.forEach(
-    function(zone) {
-
-        let unlocked =
-        canEnterZone(zone.level);
-
-
-        zonesHTML += `
-
-        <div class="feature">
-
-            <h3>
-            ${zone.name}
-            </h3>
-
-            <p>
-            Required Level:
-            ${zone.level}
-            </p>
-
-
-            ${
-            unlocked
-
-            ?
-
-            `<button
-            onclick="enterZone('${zone.name}')">
-            ENTER
-            </button>`
-
-            :
-
-            `<p>
-            🔒 LOCKED
-            </p>`
-
-            }
-
-        </div>
-
-        `;
-
-    });
-
-
-    document.body.innerHTML = `
-
-    <main>
-
-        <section class="hero-section">
-
-            <h1>🗺️ JUNAKIS WORLD MAP</h1>
-
-            <div class="features">
-
-            ${zonesHTML}
-
-            </div>
-
-            <br>
-
-            <button onclick="showGameWorld()">
-            🌍 BACK TO WORLD
-            </button>
-
-        </section>
-
-    </main>
-
-    `;
-
-}
-
-
-// =====================================
-// ENTER ZONE
-// =====================================
-
-function enterZone(zoneName) {
-
-    changeZone(zoneName);
-
-    alert(
-        "🌍 You entered:\n\n" +
-        zoneName
-    );
-
-    showGameWorld();
-
-}
-
-
-// =====================================
-// MARKETPLACE
-// =====================================
-
-function openMarketplace() {
-
-    alert(
-
-        "🛒 ALBERTO NFT MARKETPLACE\n\n" +
-
-        "The marketplace is connected to the JUNAKIS ecosystem.\n\n" +
-
-        "NFT trading system coming soon."
-
-    );
-
-}
-
-
-// =====================================
-// GAME INITIALIZATION
-// =====================================
-
-window.addEventListener(
-"DOMContentLoaded",
-function() {
-
-    console.log(
-        "JUNAKIS MMORPG loaded successfully."
-    );
-
-});
