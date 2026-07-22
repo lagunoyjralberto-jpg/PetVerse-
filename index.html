@@ -1,371 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JUNAKIS | Alberto NFT Marketplace</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+<title>JUNAKIS: RISE OF LEGENDS</title>
 
-body{
-background:#05070d;
-color:white;
-font-family:Arial,sans-serif;
-}
+<link rel="stylesheet" href="style.css">
 
-header{
-padding:25px 15px;
-text-align:center;
-background:#0d1322;
-border-bottom:2px solid #ffd700;
-}
-
-.logo{
-font-size:30px;
-font-weight:bold;
-color:#ffd700;
-}
-
-.subtitle{
-color:#aaa;
-margin-top:8px;
-}
-
-nav{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:8px;
-margin-top:20px;
-}
-
-nav button,.category{
-background:#151d30;
-color:white;
-border:1px solid #444;
-padding:10px 14px;
-border-radius:8px;
-cursor:pointer;
-}
-
-nav button:hover,.category:hover{
-background:#ffd700;
-color:black;
-}
-
-.hero{
-text-align:center;
-padding:50px 20px;
-background:radial-gradient(circle,#18254a,#05070d);
-}
-
-.hero h1{
-color:#ffd700;
-font-size:38px;
-margin-bottom:15px;
-}
-
-.hero p{
-color:#ccc;
-line-height:1.6;
-max-width:650px;
-margin:auto;
-}
-
-.marketplace{
-padding:40px 15px;
-}
-
-.marketplace h2{
-text-align:center;
-color:#ffd700;
-margin-bottom:25px;
-}
-
-.categories{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:8px;
-margin-bottom:30px;
-}
-
-.items{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-max-width:1100px;
-margin:auto;
-}
-
-.card{
-background:#111827;
-border:1px solid #333;
-border-radius:15px;
-padding:18px;
-}
-
-.art{
-height:150px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:60px;
-background:linear-gradient(135deg,#35116b,#101827);
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.card h3{
-color:#ffd700;
-margin-bottom:8px;
-}
-
-.card p{
-color:#aaa;
-margin:6px 0;
-}
-
-.rarity{
-color:#c084fc!important;
-font-weight:bold;
-}
-
-.price{
-color:#4ade80!important;
-font-size:19px;
-font-weight:bold;
-margin:12px 0;
-}
-
-.buy{
-width:100%;
-padding:12px;
-background:#ffd700;
-color:#000;
-border:0;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-}
-
-footer{
-text-align:center;
-padding:30px;
-margin-top:40px;
-background:#080b12;
-color:#888;
-}
-
-footer strong{
-color:#ffd700;
-}
-</style>
 </head>
+
 
 <body>
 
+<div class="game-container">
+
 <header>
 
-<div class="logo">
-ALBERTO NFT MARKETPLACE
-</div>
+<h1>⚔️ JUNAKIS: RISE OF LEGENDS ⚔️</h1>
 
-<div class="subtitle">
-JUNAKIS: RISE OF LEGENDS
-</div>
+<h2>MMORPG WORLD</h2>
 
-<nav>
-<button onclick="filterItems('all')">🏪 ALL</button>
-<button onclick="filterItems('armor')">🛡️ ARMOR</button>
-<button onclick="filterItems('weapon')">⚔️ WEAPON</button>
-<button onclick="filterItems('bike')">🏍️ BIKE</button>
-<button onclick="filterItems('board')">🛹 BOARD</button>
-<button onclick="filterItems('mount')">🐉 MOUNT</button>
-<button onclick="filterItems('pet')">🐾 PET</button>
-<button onclick="filterItems('costume')">👕 COSTUME</button>
-<button onclick="filterItems('accessory')">💍 ACCESSORY</button>
-<button onclick="filterItems('wings')">🪽 WINGS</button>
-<button onclick="filterItems('art')">🎨 ART</button>
-</nav>
+<p>
+Forge Your Destiny. Rise Together.
+</p>
 
 </header>
 
-<section class="hero">
 
-<h1>🔥 JUNAKIS: RISE OF LEGENDS 🔥</h1>
+<main>
+
+<section class="hero-section">
+
+<h2>🌍 Welcome to JUNAKIS</h2>
 
 <p>
-Welcome to Alberto NFT Marketplace.
-Collect legendary armor, weapons, astral bikes,
-astral boards, mounts, pets, costumes,
-accessories, wings and digital art.
+Enter a legendary world filled with monsters,
+ancient kingdoms, powerful heroes and mysterious lands.
 </p>
 
+<button onclick="chooseHero()">
+🎮 ENTER THE WORLD
+</button>
+
 </section>
 
-<section class="marketplace">
 
-<h2>🛒 ALBERTO NFT MARKETPLACE</h2>
+<section class="features">
 
-<div class="categories">
+<div class="feature">
 
-<button class="category" onclick="filterItems('all')">ALL</button>
-<button class="category" onclick="filterItems('armor')">ARMOR</button>
-<button class="category" onclick="filterItems('weapon')">WEAPONS</button>
-<button class="category" onclick="filterItems('bike')">BIKES</button>
-<button class="category" onclick="filterItems('board')">BOARDS</button>
-<button class="category" onclick="filterItems('mount')">MOUNTS</button>
-<button class="category" onclick="filterItems('pet')">PETS</button>
-<button class="category" onclick="filterItems('costume')">COSTUMES</button>
-<button class="category" onclick="filterItems('accessory')">ACCESSORIES</button>
-<button class="category" onclick="filterItems('wings')">WINGS</button>
-<button class="category" onclick="filterItems('art')">DIGITAL ART</button>
+<h3>⚔️ HEROES</h3>
+
+<p>
+Choose your class and create your legend.
+</p>
 
 </div>
 
-<div class="items">
 
-<div class="card" data-category="armor">
-<div class="art">🛡️</div>
-<h3>Moonlord Armor +15</h3>
-<p>Mythic Full Armor Set</p>
-<p class="rarity">Perfect Stats</p>
-<p class="price">5,000 PI</p>
-<button class="buy" onclick="buyItem('Moonlord Armor +15')">BUY NFT</button>
+<div class="feature">
+
+<h3>🌲 WORLD</h3>
+
+<p>
+Explore forests, kingdoms and dangerous lands.
+</p>
+
 </div>
 
-<div class="card" data-category="weapon">
-<div class="art">⚔️</div>
-<h3>Moonlord Greatsword +15</h3>
-<p>Mythic Greatsword</p>
-<p class="rarity">Perfect Attack</p>
-<p class="price">3,000 PI</p>
-<button class="buy" onclick="buyItem('Moonlord Greatsword +15')">BUY NFT</button>
+
+<div class="feature">
+
+<h3>👾 MONSTERS</h3>
+
+<p>
+Fight powerful monsters and earn EXP.
+</p>
+
 </div>
 
-<div class="card" data-category="bike">
-<div class="art">🏍️</div>
-<h3>RW3 Astral Bike +15</h3>
-<p>Legendary Astral Bike</p>
-<p class="rarity">Perfect Item</p>
-<p class="price">2,000 PI</p>
-<button class="buy" onclick="buyItem('RW3 Astral Bike +15')">BUY NFT</button>
+
+<div class="feature">
+
+<h3>🛡️ EQUIPMENT</h3>
+
+<p>
+Collect powerful armor and legendary weapons.
+</p>
+
 </div>
 
-<div class="card" data-category="board">
-<div class="art">🛹</div>
-<h3>Celestial Astral Board +15</h3>
-<p>Mythic Astral Board</p>
-<p class="rarity">Perfect Item</p>
-<p class="price">1,500 PI</p>
-<button class="buy" onclick="buyItem('Celestial Astral Board +15')">BUY NFT</button>
+
+<div class="feature">
+
+<h3>🐾 PETS & MOUNTS</h3>
+
+<p>
+Travel with loyal pets and legendary mounts.
+</p>
+
 </div>
 
-<div class="card" data-category="mount">
-<div class="art">🐉</div>
-<h3>Celestial Dragon</h3>
-<p>Legendary Flying Mount</p>
-<p class="rarity">MAX Speed</p>
-<p class="price">2,500 PI</p>
-<button class="buy" onclick="buyItem('Celestial Dragon')">BUY NFT</button>
-</div>
 
-<div class="card" data-category="pet">
-<div class="art">🐾</div>
-<h3>Astral Phoenix</h3>
-<p>Mythic Battle Pet</p>
-<p class="rarity">MAX Power</p>
-<p class="price">1,800 PI</p>
-<button class="buy" onclick="buyItem('Astral Phoenix')">BUY NFT</button>
-</div>
+<div class="feature">
 
-<div class="card" data-category="costume">
-<div class="art">👕</div>
-<h3>Alberto Legend Costume</h3>
-<p>Legendary Costume</p>
-<p class="rarity">Limited Edition</p>
-<p class="price">1,000 PI</p>
-<button class="buy" onclick="buyItem('Alberto Legend Costume')">BUY NFT</button>
-</div>
+<h3>🛒 NFT MARKETPLACE</h3>
 
-<div class="card" data-category="accessory">
-<div class="art">💍</div>
-<h3>Celestial Ring +15</h3>
-<p>Mythic Accessory</p>
-<p class="rarity">Perfect Stats</p>
-<p class="price">900 PI</p>
-<button class="buy" onclick="buyItem('Celestial Ring +15')">BUY NFT</button>
-</div>
-
-<div class="card" data-category="wings">
-<div class="art">🪽</div>
-<h3>Wings of Astral King</h3>
-<p>Mythic Wings</p>
-<p class="rarity">MAX Power</p>
-<p class="price">2,200 PI</p>
-<button class="buy" onclick="buyItem('Wings of Astral King')">BUY NFT</button>
-</div>
-
-<div class="card" data-category="art">
-<div class="art">🎨</div>
-<h3>Alberto Digital Masterpiece</h3>
-<p>Ultra Rare Digital Art</p>
-<p class="rarity">1 of 1</p>
-<p class="price">10,000 PI</p>
-<button class="buy" onclick="buyItem('Alberto Digital Masterpiece')">BUY NFT</button>
-</div>
+<p>
+Connect your game items with Alberto NFT Marketplace.
+</p>
 
 </div>
 
 </section>
+
+</main>
+
 
 <footer>
 
-<p><strong>ALBERTO NFT MARKETPLACE</strong></p>
+<p>
+<strong>JUNAKIS: RISE OF LEGENDS</strong>
+</p>
 
-<p>Alberto Digital Art Work Studio</p>
+<p>
+Powered by Alberto Digital Art Work Studio
+</p>
 
-<p>JUNAKIS: RISE OF LEGENDS © 2026</p>
+<p>
+© 2026 JUNAKIS MMORPG
+</p>
 
 </footer>
 
-<script>
+</div>
 
-function filterItems(category){
 
-let cards=document.querySelectorAll('.card');
+<script src="player.js"></script>
 
-cards.forEach(function(card){
+<script src="world.js"></script>
 
-if(category==='all' ||
-card.dataset.category===category){
-
-card.style.display='block';
-
-}else{
-
-card.style.display='none';
-
-}
-
-});
-
-}
-
-function buyItem(item){
-
-alert(
-'ALBERTO NFT MARKETPLACE\n\n' +
-item +
-'\n\nNFT purchase system coming soon.'
-);
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
+
 </html>
