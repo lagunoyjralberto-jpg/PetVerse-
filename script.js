@@ -106,7 +106,10 @@ function showGameWorld() {
 
         </header>
 
+
         <main>
+
+            <!-- HERO STATUS -->
 
             <section class="hero-section">
 
@@ -195,6 +198,7 @@ function showGameWorld() {
             <!-- GAME ACTIONS -->
 
             <section class="features">
+
 
                 <div class="feature">
 
@@ -285,6 +289,7 @@ function showGameWorld() {
 
                 </div>
 
+
             </section>
 
         </main>
@@ -309,3 +314,595 @@ function showGameWorld() {
     `;
 
 }
+
+
+// =====================================
+// BATTLE SYSTEM
+// =====================================
+
+let currentMonster = null;
+
+
+// =====================================
+// START BATTLE
+// =====================================
+
+function startBattle() {
+
+    currentMonster = {
+
+        name: "Forest Goblin",
+
+        hp: 50,
+
+        maxHp: 50,
+
+        attack: 10,
+
+        expReward: 25,
+
+        goldReward: 50
+
+    };
+
+
+    showBattleArena();
+
+}
+
+
+// =====================================
+// SHOW BATTLE ARENA
+// =====================================
+
+function showBattleArena() {
+
+    if(!currentMonster) {
+
+        return;
+
+    }
+
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>⚔️ BATTLE ARENA ⚔️</h1>
+
+            <h2>👾 ${currentMonster.name}</h2>
+
+            <p>
+            ❤️ Monster HP:
+            <span id="monster-hp">
+            ${currentMonster.hp} / ${currentMonster.maxHp}
+            </span>
+            </p>
+
+            <br>
+
+            <p>
+            ❤️ Your HP:
+            <span id="player-hp">
+            ${player.hp} / ${player.maxHp}
+            </span>
+            </p>
+
+            <p>
+            ⚔️ Your Attack:
+            ${player.attack}
+            </p>
+
+            <br>
+
+            <button onclick="attackMonster()">
+            ⚔️ ATTACK
+            </button>
+
+            <br><br>
+
+            <button onclick="runFromBattle()">
+            🏃 RUN AWAY
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// ATTACK MONSTER
+// =====================================
+
+function attackMonster() {
+
+    if(!currentMonster) {
+
+        return;
+
+    }
+
+
+    let damage = player.attack;
+
+    currentMonster.hp -= damage;
+
+
+    if(currentMonster.hp <= 0) {
+
+        currentMonster.hp = 0;
+
+
+        addExp(currentMonster.expReward);
+
+        addGold(currentMonster.goldReward);
+
+
+        alert(
+
+            "🏆 VICTORY!\n\n" +
+
+            "Monster: " +
+            currentMonster.name +
+
+            "\n\n" +
+
+            "+" +
+            currentMonster.expReward +
+            " EXP\n" +
+
+            "+" +
+            currentMonster.goldReward +
+            " GOLD"
+
+        );
+
+
+        currentMonster = null;
+
+        showGameWorld();
+
+        return;
+
+    }
+
+
+    let defeated =
+    damagePlayer(currentMonster.attack);
+
+
+    if(defeated) {
+
+        alert(
+
+            "💀 YOU WERE DEFEATED!\n\n" +
+
+            "Returning to town..."
+
+        );
+
+
+        player.hp = player.maxHp;
+
+        currentMonster = null;
+
+        showGameWorld();
+
+        return;
+
+    }
+
+
+    showBattleArena();
+
+}
+
+
+// =====================================
+// RUN FROM BATTLE
+// =====================================
+
+function runFromBattle() {
+
+    currentMonster = null;
+
+    showGameWorld();
+
+}// =====================================
+// INVENTORY SYSTEM
+// =====================================
+
+function openInventory() {
+
+    let inventoryHTML = "";
+
+
+    if(player.inventory.length === 0) {
+
+        inventoryHTML =
+        "<p>🎒 Inventory is empty.</p>";
+
+    }
+
+    else {
+
+        player.inventory.forEach(
+        function(item, index) {
+
+            inventoryHTML += `
+
+            <div class="feature">
+
+                <h3>
+                ${item.name}
+                </h3>
+
+                <p>
+                Rarity:
+                ${item.rarity || "Common"}
+                </p>
+
+                <p>
+                Type:
+                ${item.type || "Item"}
+                </p>
+
+                <button
+                onclick="equipInventoryItem(${index})">
+                ⚔️ EQUIP
+                </button>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🎒 INVENTORY</h1>
+
+            ${inventoryHTML}
+
+            <br>
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// EQUIP INVENTORY ITEM
+// =====================================
+
+function equipInventoryItem(index) {
+
+    let item = player.inventory[index];
+
+
+    if(!item) {
+
+        return;
+
+    }
+
+
+    equipItem(item);
+
+
+    alert(
+
+        "⚔️ ITEM EQUIPPED!\n\n" +
+
+        item.name
+
+    );
+
+
+    showGameWorld();
+
+}
+
+
+// =====================================
+// EQUIPMENT SYSTEM
+// =====================================
+
+function openEquipment() {
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🛡️ EQUIPMENT</h1>
+
+
+            <p>
+            🛡️ Armor:
+            ${getItemName(player.equipment.armor)}
+            </p>
+
+
+            <p>
+            ⚔️ Weapon:
+            ${getItemName(player.equipment.weapon)}
+            </p>
+
+
+            <p>
+            🛹 Astral Board:
+            ${getItemName(player.equipment.astralBoard)}
+            </p>
+
+
+            <p>
+            🏍️ Astral Bike:
+            ${getItemName(player.equipment.astralBike)}
+            </p>
+
+
+            <p>
+            👕 Costume:
+            ${getItemName(player.equipment.costume)}
+            </p>
+
+
+            <p>
+            💍 Accessory:
+            ${getItemName(player.equipment.accessory)}
+            </p>
+
+
+            <p>
+            🪽 Wings:
+            ${getItemName(player.equipment.wings)}
+            </p>
+
+
+            <br>
+
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// ITEM NAME
+// =====================================
+
+function getItemName(item) {
+
+    if(!item) {
+
+        return "Empty";
+
+    }
+
+
+    return item.name || "Unknown Item";
+
+}
+
+
+// =====================================
+// PET & MOUNT SYSTEM
+// =====================================
+
+function openCompanions() {
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🐾 PETS & MOUNTS</h1>
+
+
+            <p>
+            🐾 Pet:
+            ${getItemName(player.pet)}
+            </p>
+
+
+            <p>
+            🐉 Mount:
+            ${getItemName(player.mount)}
+            </p>
+
+
+            <br>
+
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// WORLD MAP
+// =====================================
+
+function openWorldZones() {
+
+    let zonesHTML = "";
+
+
+    worldZones.forEach(
+    function(zone) {
+
+        let unlocked =
+        canEnterZone(zone.level);
+
+
+        zonesHTML += `
+
+        <div class="feature">
+
+            <h3>
+            ${zone.name}
+            </h3>
+
+            <p>
+            Required Level:
+            ${zone.level}
+            </p>
+
+
+            ${
+            unlocked
+
+            ?
+
+            `<button
+            onclick="enterZone('${zone.name}')">
+            🌍 ENTER
+            </button>`
+
+            :
+
+            `<p>
+            🔒 LOCKED
+            </p>`
+
+            }
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🗺️ JUNAKIS WORLD MAP</h1>
+
+            <div class="features">
+
+            ${zonesHTML}
+
+            </div>
+
+            <br>
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// ENTER ZONE
+// =====================================
+
+function enterZone(zoneName) {
+
+    changeZone(zoneName);
+
+
+    alert(
+
+        "🌍 YOU ENTERED:\n\n" +
+
+        zoneName
+
+    );
+
+
+    showGameWorld();
+
+}
+
+
+// =====================================
+// MARKETPLACE
+// =====================================
+
+function openMarketplace() {
+
+    alert(
+
+        "🛒 ALBERTO NFT MARKETPLACE\n\n" +
+
+        "The marketplace is connected " +
+        "to the JUNAKIS ecosystem.\n\n" +
+
+        "NFT trading system coming soon."
+
+    );
+
+}
+
+
+// =====================================
+// GAME INITIALIZATION
+// =====================================
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    function() {
+
+        console.log(
+
+            "⚔️ JUNAKIS MMORPG " +
+            "Alpha 0.4 loaded successfully."
+
+        );
+
+    }
+
+);
