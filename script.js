@@ -1,132 +1,9 @@
 // =====================================
-// JUNAKIS: RISE OF LEGENDS
-// MMORPG GAME CORE
-// Alpha 0.2
+// JUNAKIS : RISE OF LEGENDS
+// script.js
+// Main Game Controller
+// Alpha 0.3
 // =====================================
-
-// =====================================
-// PLAYER DATA
-// =====================================
-
-let player = {
-    name: "Hero",
-    class: "",
-    level: 1,
-    exp: 0,
-    maxExp: 100,
-
-    hp: 100,
-    maxHp: 100,
-
-    mana: 50,
-    maxMana: 50,
-
-    attack: 10,
-    defense: 5,
-
-    gold: 100,
-
-    x: 5,
-    y: 5,
-
-    pet: null,
-    mount: null,
-
-    equipment: {
-        armor: null,
-        weapon: null,
-        astralBoard: null,
-        astralBike: null,
-        costume: null,
-        accessory: null,
-        wings: null
-    },
-
-    inventory: []
-};
-
-
-// =====================================
-// GAME ITEMS
-// =====================================
-
-const gameItems = [
-
-    {
-        id: "moonlord_armor_15",
-        name: "Moonlord Armor +15",
-        type: "armor",
-        rarity: "Mythic",
-        attack: 0,
-        defense: 100
-    },
-
-    {
-        id: "moonlord_greatsword_15",
-        name: "Moonlord Greatsword +15",
-        type: "weapon",
-        rarity: "Mythic",
-        attack: 150,
-        defense: 0
-    },
-
-    {
-        id: "rw3_astral_bike_15",
-        name: "RW3 Astral Bike +15",
-        type: "astralBike",
-        rarity: "Legendary",
-        speed: 100
-    },
-
-    {
-        id: "celestial_astral_board_15",
-        name: "Celestial Astral Board +15",
-        type: "astralBoard",
-        rarity: "Mythic",
-        speed: 120
-    },
-
-    {
-        id: "celestial_dragon",
-        name: "Celestial Dragon",
-        type: "mount",
-        rarity: "Legendary",
-        speed: 150
-    },
-
-    {
-        id: "astral_phoenix",
-        name: "Astral Phoenix",
-        type: "pet",
-        rarity: "Mythic",
-        attack: 50
-    },
-
-    {
-        id: "alberto_costume",
-        name: "Alberto Legend Costume",
-        type: "costume",
-        rarity: "Legendary"
-    },
-
-    {
-        id: "celestial_ring_15",
-        name: "Celestial Ring +15",
-        type: "accessory",
-        rarity: "Mythic",
-        attack: 30,
-        defense: 30
-    },
-
-    {
-        id: "astral_king_wings",
-        name: "Wings of Astral King",
-        type: "wings",
-        rarity: "Mythic",
-        defense: 50
-    }
-
-];
 
 
 // =====================================
@@ -137,183 +14,59 @@ function chooseHero() {
 
     document.body.innerHTML = `
 
-    <div style="
-    text-align:center;
-    padding:40px 20px;
-    background:#05070d;
-    color:white;
-    min-height:100vh;
-    font-family:Arial;
-    ">
+    <div class="game-container">
 
-    <h1 style="color:#FFD700;">
-    ⚔️ JUNAKIS: RISE OF LEGENDS ⚔️
-    </h1>
+        <header>
 
-    <h2>Choose Your Hero</h2>
+            <h1>⚔️ JUNAKIS: RISE OF LEGENDS ⚔️</h1>
 
-    <p>Choose your class and begin your adventure.</p>
+            <h2>CHOOSE YOUR HERO</h2>
 
-    <br>
+            <p>Forge Your Destiny. Rise Together.</p>
 
-    <button onclick="enterWorld('Warrior')">
-    ⚔️ Warrior
-    </button>
-
-    <br><br>
-
-    <button onclick="enterWorld('Mage')">
-    🧙 Mage
-    </button>
-
-    <br><br>
-
-    <button onclick="enterWorld('Assassin')">
-    🗡️ Assassin
-    </button>
-
-    <br><br>
-
-    <button onclick="enterWorld('Archer')">
-    🏹 Archer
-    </button>
-
-    </div>
-
-    `;
-
-}
+        </header>
 
 
-// =====================================
-// ENTER WORLD
-// =====================================
+        <main>
 
-function enterWorld(heroClass) {
+            <section class="hero-section">
 
-    player.class = heroClass;
+                <h2>Choose Your Class</h2>
 
-    if (heroClass === "Warrior") {
-
-        player.maxHp = 150;
-        player.hp = 150;
-        player.maxMana = 50;
-        player.mana = 50;
-        player.attack = 15;
-        player.defense = 15;
-
-    }
-
-    if (heroClass === "Mage") {
-
-        player.maxHp = 80;
-        player.hp = 80;
-        player.maxMana = 150;
-        player.mana = 150;
-        player.attack = 25;
-        player.defense = 5;
-
-    }
-
-    if (heroClass === "Assassin") {
-
-        player.maxHp = 90;
-        player.hp = 90;
-        player.maxMana = 80;
-        player.mana = 80;
-        player.attack = 20;
-        player.defense = 8;
-
-    }
-
-    if (heroClass === "Archer") {
-
-        player.maxHp = 100;
-        player.hp = 100;
-        player.maxMana = 80;
-        player.mana = 80;
-        player.attack = 18;
-        player.defense = 10;
-
-    }
-
-    showWorld();
-
-}
+                <p>
+                Select your hero and begin your adventure
+                in the world of JUNAKIS.
+                </p>
 
 
-// =====================================
-// WORLD SCREEN
-// =====================================
+                <button onclick="startGame('Warrior')">
+                    ⚔️ WARRIOR
+                </button>
 
-function showWorld() {
+                <br><br>
 
-    document.body.innerHTML = `
 
-    <div style="
-    min-height:100vh;
-    background:#05070d;
-    color:white;
-    padding:20px;
-    font-family:Arial;
-    ">
+                <button onclick="startGame('Mage')">
+                    🧙 MAGE
+                </button>
 
-    <h1 style="color:#FFD700;">
-    🌍 JUNAKIS: RISE OF LEGENDS
-    </h1>
+                <br><br>
 
-    <hr>
 
-    <h2>
-    ⚔️ ${player.class}
-    </h2>
+                <button onclick="startGame('Assassin')">
+                    🗡️ ASSASSIN
+                </button>
 
-    <p>❤️ HP: ${player.hp} / ${player.maxHp}</p>
+                <br><br>
 
-    <p>🔷 Mana: ${player.mana} / ${player.maxMana}</p>
 
-    <p>⚔️ Attack: ${player.attack}</p>
+                <button onclick="startGame('Archer')">
+                    🏹 ARCHER
+                </button>
 
-    <p>🛡️ Defense: ${player.defense}</p>
+            </section>
 
-    <p>⭐ Level: ${player.level}</p>
-
-    <p>✨ EXP: ${player.exp} / ${player.maxExp}</p>
-
-    <p>💰 Gold: ${player.gold}</p>
-
-    <p>🐾 Pet: ${player.pet || "None"}</p>
-
-    <p>🐉 Mount: ${player.mount || "None"}</p>
-
-    <br>
-
-    <h2>🌲 Whispering Forest</h2>
-
-    <p>
-    Welcome, ${player.class}.
-    Your adventure in JUNAKIS begins here.
-    </p>
-
-    <br>
-
-    <button onclick="openInventory()">
-    🎒 Inventory
-    </button>
-
-    <button onclick="openEquipment()">
-    🛡️ Equipment
-    </button>
-
-    <button onclick="openMarketplace()">
-    🛒 Marketplace
-    </button>
-
-    <br><br>
-
-    <button onclick="startBattle()">
-    ⚔️ Find Monster
-    </button>
+        </main>
 
     </div>
 
@@ -323,150 +76,244 @@ function showWorld() {
 
 
 // =====================================
-// INVENTORY
+// START PLAYER
 // =====================================
 
-function openInventory() {
+function startGame(heroClass) {
 
-    let inventoryText = "";
+    createPlayer("Hero", heroClass);
 
-    if (player.inventory.length === 0) {
-
-        inventoryText = "Inventory is empty.";
-
-    } else {
-
-        player.inventory.forEach(item => {
-
-            inventoryText +=
-            item.name +
-            " [" +
-            item.rarity +
-            "]<br>";
-
-        });
-
-    }
-
-    document.body.innerHTML = `
-
-    <div style="
-    padding:30px;
-    background:#05070d;
-    color:white;
-    min-height:100vh;
-    font-family:Arial;
-    ">
-
-    <h1>🎒 Inventory</h1>
-
-    <br>
-
-    <div>
-    ${inventoryText}
-    </div>
-
-    <br>
-
-    <button onclick="showWorld()">
-    🌍 Back to World
-    </button>
-
-    </div>
-
-    `;
+    showGameWorld();
 
 }
 
 
 // =====================================
-// EQUIPMENT
+// MAIN GAME WORLD
 // =====================================
 
-function openEquipment() {
+function showGameWorld() {
 
     document.body.innerHTML = `
 
-    <div style="
-    padding:30px;
-    background:#05070d;
-    color:white;
-    min-height:100vh;
-    font-family:Arial;
-    ">
+    <div class="game-container">
 
-    <h1>🛡️ Equipment</h1>
+        <header>
 
-    <p>Armor:
-    ${player.equipment.armor || "Empty"}
-    </p>
+            <h1>🌍 JUNAKIS: RISE OF LEGENDS</h1>
 
-    <p>Weapon:
-    ${player.equipment.weapon || "Empty"}
-    </p>
+            <h2>${player.class}</h2>
 
-    <p>Astral Board:
-    ${player.equipment.astralBoard || "Empty"}
-    </p>
+            <p>
+            Welcome, ${player.name}.
+            Your legend begins now.
+            </p>
 
-    <p>Astral Bike:
-    ${player.equipment.astralBike || "Empty"}
-    </p>
-
-    <p>Costume:
-    ${player.equipment.costume || "Empty"}
-    </p>
-
-    <p>Accessory:
-    ${player.equipment.accessory || "Empty"}
-    </p>
-
-    <p>Wings:
-    ${player.equipment.wings || "Empty"}
-    </p>
-
-    <br>
-
-    <button onclick="showWorld()">
-    🌍 Back to World
-    </button>
-
-    </div>
-
-    `;
-
-}
+        </header>
 
 
-// =====================================
-// MARKETPLACE
-// =====================================
+        <main>
 
-function openMarketplace() {
+            <!-- PLAYER STATUS -->
 
-    document.body.innerHTML = `
+            <section class="hero-section">
 
-    <div style="
-    padding:30px;
-    background:#05070d;
-    color:white;
-    min-height:100vh;
-    font-family:Arial;
-    ">
+                <h2>⚔️ HERO STATUS</h2>
 
-    <h1 style="color:#FFD700;">
-    🛒 ALBERTO NFT MARKETPLACE
-    </h1>
+                <p>
+                ❤️ HP:
+                ${player.hp} / ${player.maxHp}
+                </p>
 
-    <p>
-    Game Items Marketplace
-    </p>
+                <p>
+                🔷 MANA:
+                ${player.mana} / ${player.maxMana}
+                </p>
 
-    <br>
+                <p>
+                ⚔️ ATTACK:
+                ${player.attack}
+                </p>
 
-    <button onclick="showWorld()">
-    🌍 Back to World
-    </button>
+                <p>
+                🛡️ DEFENSE:
+                ${player.defense}
+                </p>
+
+                <p>
+                ⭐ LEVEL:
+                ${player.level}
+                </p>
+
+                <p>
+                ✨ EXP:
+                ${player.exp} / ${player.maxExp}
+                </p>
+
+                <p>
+                💰 GOLD:
+                ${player.gold}
+                </p>
+
+            </section>
+
+
+            <!-- WORLD -->
+
+            <section
+            id="world-screen"
+            class="hero-section">
+
+                <h2>🌲 ${world.currentZone}</h2>
+
+                <p>
+                📍 Position:
+                X: ${player.x}
+                |
+                Y: ${player.y}
+                </p>
+
+
+                <button onclick="movePlayer('up')">
+                    ⬆️
+                </button>
+
+                <br><br>
+
+                <button onclick="movePlayer('left')">
+                    ⬅️
+                </button>
+
+                <button onclick="movePlayer('down')">
+                    ⬇️
+                </button>
+
+                <button onclick="movePlayer('right')">
+                    ➡️
+                </button>
+
+                <br><br>
+
+                <p>
+                Explore the world of JUNAKIS.
+                </p>
+
+            </section>
+
+
+            <!-- GAME ACTIONS -->
+
+            <section class="features">
+
+
+                <div class="feature">
+
+                    <h3>👾 BATTLE</h3>
+
+                    <p>
+                    Fight monsters and earn EXP.
+                    </p>
+
+                    <button onclick="startBattle()">
+                    ⚔️ FIND MONSTER
+                    </button>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>🎒 INVENTORY</h3>
+
+                    <p>
+                    View your collected items.
+                    </p>
+
+                    <button onclick="openInventory()">
+                    🎒 OPEN INVENTORY
+                    </button>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>🛡️ EQUIPMENT</h3>
+
+                    <p>
+                    Manage your equipped items.
+                    </p>
+
+                    <button onclick="openEquipment()">
+                    🛡️ EQUIPMENT
+                    </button>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>🐾 PET & MOUNT</h3>
+
+                    <p>
+                    Your companions and mounts.
+                    </p>
+
+                    <button onclick="openCompanions()">
+                    🐾 VIEW COMPANIONS
+                    </button>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>🗺️ WORLD ZONES</h3>
+
+                    <p>
+                    Explore different regions.
+                    </p>
+
+                    <button onclick="openWorldZones()">
+                    🗺️ WORLD MAP
+                    </button>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <h3>🛒 MARKETPLACE</h3>
+
+                    <p>
+                    Access the Alberto NFT Marketplace.
+                    </p>
+
+                    <button onclick="openMarketplace()">
+                    🛒 MARKETPLACE
+                    </button>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+
+        <footer>
+
+            <p>
+            <strong>
+            JUNAKIS: RISE OF LEGENDS
+            </strong>
+            </p>
+
+            <p>
+            Powered by Alberto Digital Art Work Studio
+            </p>
+
+        </footer>
 
     </div>
 
@@ -481,81 +328,433 @@ function openMarketplace() {
 
 function startBattle() {
 
-    let monsterHp = 50;
+    let monster = {
+
+        name: "Forest Goblin",
+
+        hp: 50,
+
+        attack: 10
+
+    };
+
 
     let damage = player.attack;
 
-    monsterHp -= damage;
+    monster.hp -= damage;
 
-    if (monsterHp <= 0) {
 
-        player.exp += 25;
-        player.gold += 50;
+    if(monster.hp <= 0) {
 
-        checkLevelUp();
+        addExp(25);
+
+        addGold(50);
+
 
         alert(
-        "Victory!\n\n" +
-        "+25 EXP\n" +
-        "+50 Gold"
+
+            "⚔️ VICTORY!\n\n" +
+
+            "Monster: " +
+            monster.name +
+
+            "\n\n" +
+
+            "+25 EXP\n" +
+
+            "+50 GOLD"
+
         );
 
-    } else {
+    }
 
-        player.hp -= 10;
+    else {
 
-        if (player.hp <= 0) {
+        let defeated =
+        damagePlayer(monster.attack);
 
-            player.hp = player.maxHp;
 
-            alert("You were defeated!");
-
-        } else {
+        if(defeated) {
 
             alert(
-            "Battle!\n\n" +
-            "You dealt " +
-            damage +
-            " damage."
+                "💀 YOU WERE DEFEATED!\n\n" +
+                "Returning to town..."
+            );
+
+
+            player.hp =
+            player.maxHp;
+
+        }
+
+        else {
+
+            alert(
+
+                "⚔️ BATTLE!\n\n" +
+
+                "You dealt " +
+                damage +
+                " damage.\n\n" +
+
+                "Monster HP: " +
+                monster.hp +
+                "\n\n" +
+
+                "You received " +
+                monster.attack +
+                " damage."
+
             );
 
         }
 
     }
 
-    showWorld();
+
+    showGameWorld();
 
 }
 
 
 // =====================================
-// LEVEL SYSTEM
+// INVENTORY
 // =====================================
 
-function checkLevelUp() {
+function openInventory() {
 
-    if (player.exp >= player.maxExp) {
+    let inventoryHTML = "";
 
-        player.level++;
 
-        player.exp = 0;
+    if(player.inventory.length === 0) {
 
-        player.maxExp += 100;
-
-        player.maxHp += 20;
-
-        player.hp = player.maxHp;
-
-        player.attack += 5;
-
-        player.defense += 3;
-
-        alert(
-        "🎉 LEVEL UP!\n\n" +
-        "You are now Level " +
-        player.level
-        );
+        inventoryHTML =
+        "<p>🎒 Inventory is empty.</p>";
 
     }
 
+    else {
+
+        player.inventory.forEach(
+        function(item) {
+
+            inventoryHTML += `
+
+            <div class="feature">
+
+                <h3>
+                ${item.name}
+                </h3>
+
+                <p>
+                Rarity:
+                ${item.rarity || "Common"}
+                </p>
+
+                <button
+                onclick='equipItem(${JSON.stringify(item)})'>
+                EQUIP
+                </button>
+
+            </div>
+
+            `;
+
+        });
+
+    }
+
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🎒 INVENTORY</h1>
+
+            ${inventoryHTML}
+
+            <br>
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
 }
+
+
+// =====================================
+// EQUIPMENT
+// =====================================
+
+function openEquipment() {
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🛡️ EQUIPMENT</h1>
+
+
+            <p>
+            🛡️ Armor:
+            ${getItemName(player.equipment.armor)}
+            </p>
+
+
+            <p>
+            ⚔️ Weapon:
+            ${getItemName(player.equipment.weapon)}
+            </p>
+
+
+            <p>
+            🛹 Astral Board:
+            ${getItemName(player.equipment.astralBoard)}
+            </p>
+
+
+            <p>
+            🏍️ Astral Bike:
+            ${getItemName(player.equipment.astralBike)}
+            </p>
+
+
+            <p>
+            👕 Costume:
+            ${getItemName(player.equipment.costume)}
+            </p>
+
+
+            <p>
+            💍 Accessory:
+            ${getItemName(player.equipment.accessory)}
+            </p>
+
+
+            <p>
+            🪽 Wings:
+            ${getItemName(player.equipment.wings)}
+            </p>
+
+
+            <br>
+
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// ITEM NAME
+// =====================================
+
+function getItemName(item) {
+
+    if(!item) {
+
+        return "Empty";
+
+    }
+
+
+    return item.name;
+
+}
+
+
+// =====================================
+// PET & MOUNT
+// =====================================
+
+function openCompanions() {
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🐾 PETS & MOUNTS</h1>
+
+
+            <p>
+            🐾 Pet:
+            ${getItemName(player.pet)}
+            </p>
+
+
+            <p>
+            🐉 Mount:
+            ${getItemName(player.mount)}
+            </p>
+
+
+            <br>
+
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// WORLD MAP
+// =====================================
+
+function openWorldZones() {
+
+    let zonesHTML = "";
+
+
+    worldZones.forEach(
+    function(zone) {
+
+        let unlocked =
+        canEnterZone(zone.level);
+
+
+        zonesHTML += `
+
+        <div class="feature">
+
+            <h3>
+            ${zone.name}
+            </h3>
+
+            <p>
+            Required Level:
+            ${zone.level}
+            </p>
+
+
+            ${
+            unlocked
+
+            ?
+
+            `<button
+            onclick="enterZone('${zone.name}')">
+            ENTER
+            </button>`
+
+            :
+
+            `<p>
+            🔒 LOCKED
+            </p>`
+
+            }
+
+        </div>
+
+        `;
+
+    });
+
+
+    document.body.innerHTML = `
+
+    <main>
+
+        <section class="hero-section">
+
+            <h1>🗺️ JUNAKIS WORLD MAP</h1>
+
+            <div class="features">
+
+            ${zonesHTML}
+
+            </div>
+
+            <br>
+
+            <button onclick="showGameWorld()">
+            🌍 BACK TO WORLD
+            </button>
+
+        </section>
+
+    </main>
+
+    `;
+
+}
+
+
+// =====================================
+// ENTER ZONE
+// =====================================
+
+function enterZone(zoneName) {
+
+    changeZone(zoneName);
+
+    alert(
+        "🌍 You entered:\n\n" +
+        zoneName
+    );
+
+    showGameWorld();
+
+}
+
+
+// =====================================
+// MARKETPLACE
+// =====================================
+
+function openMarketplace() {
+
+    alert(
+
+        "🛒 ALBERTO NFT MARKETPLACE\n\n" +
+
+        "The marketplace is connected to the JUNAKIS ecosystem.\n\n" +
+
+        "NFT trading system coming soon."
+
+    );
+
+}
+
+
+// =====================================
+// GAME INITIALIZATION
+// =====================================
+
+window.addEventListener(
+"DOMContentLoaded",
+function() {
+
+    console.log(
+        "JUNAKIS MMORPG loaded successfully."
+    );
+
+});
