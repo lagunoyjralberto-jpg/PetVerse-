@@ -891,18 +891,17 @@ function openMarketplace() {
 // =====================================
 
 window.addEventListener(
-
     "DOMContentLoaded",
-
     function() {
 
-        console.log(
+        loadGame();
 
+        console.log(
             "⚔️ JUNAKIS MMORPG " +
             "Alpha 0.4 loaded successfully."
-
         );
 
     }
-
 );
+
+       
