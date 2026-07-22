@@ -1,7 +1,12 @@
 // =====================================
 // JUNAKIS : RISE OF LEGENDS
 // player.js
-// Player System
+// Player System + Save System
+// =====================================
+
+
+// =====================================
+// DEFAULT PLAYER
 // =====================================
 
 let player = {
@@ -16,11 +21,6 @@ let player = {
 
     maxExp: 100,
 
-
-    // ================================
-    // HEALTH & MANA
-    // ================================
-
     hp: 100,
 
     maxHp: 100,
@@ -29,44 +29,19 @@ let player = {
 
     maxMana: 50,
 
-
-    // ================================
-    // COMBAT STATS
-    // ================================
-
     attack: 10,
 
     defense: 5,
 
-
-    // ================================
-    // ECONOMY
-    // ================================
-
     gold: 100,
-
-
-    // ================================
-    // POSITION
-    // ================================
 
     x: 5,
 
     y: 5,
 
-
-    // ================================
-    // PET & MOUNT
-    // ================================
-
     pet: null,
 
     mount: null,
-
-
-    // ================================
-    // EQUIPMENT
-    // ================================
 
     equipment: {
 
@@ -86,14 +61,61 @@ let player = {
 
     },
 
-
-    // ================================
-    // INVENTORY
-    // ================================
-
     inventory: []
 
 };
+
+
+// =====================================
+// SAVE SYSTEM
+// =====================================
+
+function saveGame() {
+
+    localStorage.setItem(
+        "junakisPlayer",
+        JSON.stringify(player)
+    );
+
+    console.log("💾 JUNAKIS progress saved!");
+
+}
+
+
+// =====================================
+// LOAD SYSTEM
+// =====================================
+
+function loadGame() {
+
+    const savedPlayer =
+    localStorage.getItem("junakisPlayer");
+
+
+    if(savedPlayer) {
+
+        try {
+
+            player =
+            JSON.parse(savedPlayer);
+
+            console.log(
+                "💾 JUNAKIS progress loaded!"
+            );
+
+        }
+
+        catch(error) {
+
+            console.log(
+                "Save data error. Starting new game."
+            );
+
+        }
+
+    }
+
+}
 
 
 // =====================================
@@ -102,9 +124,11 @@ let player = {
 
 function createPlayer(name, heroClass) {
 
-    player.name = name || "Hero";
+    player.name =
+    name || "Hero";
 
-    player.class = heroClass;
+    player.class =
+    heroClass;
 
     player.level = 1;
 
@@ -214,6 +238,9 @@ function createPlayer(name, heroClass) {
 
     }
 
+
+    saveGame();
+
 }
 
 
@@ -226,6 +253,8 @@ function addExp(amount) {
     player.exp += amount;
 
     checkPlayerLevelUp();
+
+    saveGame();
 
 }
 
@@ -258,9 +287,13 @@ function checkPlayerLevelUp() {
 
 
         alert(
+
             "🎉 LEVEL UP!\n\n" +
+
             "You are now Level " +
+
             player.level
+
         );
 
     }
@@ -275,6 +308,8 @@ function checkPlayerLevelUp() {
 function addGold(amount) {
 
     player.gold += amount;
+
+    saveGame();
 
 }
 
@@ -293,32 +328,41 @@ function removeGold(amount) {
 
     player.gold -= amount;
 
+    saveGame();
+
     return true;
 
 }
 
 
 // =====================================
-// ADD ITEM TO INVENTORY
+// ADD ITEM
 // =====================================
 
 function addItem(item) {
 
     player.inventory.push(item);
 
+    saveGame();
+
 }
 
 
 // =====================================
-// REMOVE ITEM FROM INVENTORY
+// REMOVE ITEM
 // =====================================
 
 function removeItem(itemId) {
 
     player.inventory =
+
     player.inventory.filter(
+
         item => item.id !== itemId
+
     );
+
+    saveGame();
 
 }
 
@@ -401,6 +445,8 @@ function equipItem(item) {
 
     updatePlayerStats();
 
+    saveGame();
+
     return true;
 
 }
@@ -418,221 +464,3 @@ function updatePlayerStats() {
 
 
     if(player.class === "Warrior") {
-
-        baseAttack = 15;
-
-        baseDefense = 15;
-
-    }
-
-
-    if(player.class === "Mage") {
-
-        baseAttack = 25;
-
-        baseDefense = 5;
-
-    }
-
-
-    if(player.class === "Assassin") {
-
-        baseAttack = 20;
-
-        baseDefense = 8;
-
-    }
-
-
-    if(player.class === "Archer") {
-
-        baseAttack = 18;
-
-        baseDefense = 10;
-
-    }
-
-
-    player.attack = baseAttack;
-
-    player.defense = baseDefense;
-
-
-    // Weapon
-
-    if(player.equipment.weapon) {
-
-        player.attack +=
-        player.equipment.weapon.attack || 0;
-
-    }
-
-
-    // Armor
-
-    if(player.equipment.armor) {
-
-        player.defense +=
-        player.equipment.armor.defense || 0;
-
-    }
-
-
-    // Accessory
-
-    if(player.equipment.accessory) {
-
-        player.attack +=
-        player.equipment.accessory.attack || 0;
-
-        player.defense +=
-        player.equipment.accessory.defense || 0;
-
-    }
-
-
-    // Pet
-
-    if(player.pet) {
-
-        player.attack +=
-        player.pet.attack || 0;
-
-    }
-
-
-    // Wings
-
-    if(player.equipment.wings) {
-
-        player.defense +=
-        player.equipment.wings.defense || 0;
-
-    }
-
-}
-
-
-// =====================================
-// HEAL PLAYER
-// =====================================
-
-function healPlayer(amount) {
-
-    player.hp += amount;
-
-    if(player.hp > player.maxHp) {
-
-        player.hp = player.maxHp;
-
-    }
-
-}
-
-
-// =====================================
-// RESTORE MANA
-// =====================================
-
-function restoreMana(amount) {
-
-    player.mana += amount;
-
-    if(player.mana > player.maxMana) {
-
-        player.mana = player.maxMana;
-
-    }
-
-}
-
-
-// =====================================
-// PLAYER DAMAGE
-// =====================================
-
-function damagePlayer(amount) {
-
-    let finalDamage =
-    Math.max(1, amount - player.defense);
-
-    player.hp -= finalDamage;
-
-
-    if(player.hp <= 0) {
-
-        player.hp = 0;
-
-        return true;
-
-    }
-
-
-    return false;
-
-}
-
-
-// =====================================
-// RESET PLAYER
-// =====================================
-
-function resetPlayer() {
-
-    player = {
-
-        name: "Hero",
-
-        class: "",
-
-        level: 1,
-
-        exp: 0,
-
-        maxExp: 100,
-
-        hp: 100,
-
-        maxHp: 100,
-
-        mana: 50,
-
-        maxMana: 50,
-
-        attack: 10,
-
-        defense: 5,
-
-        gold: 100,
-
-        x: 5,
-
-        y: 5,
-
-        pet: null,
-
-        mount: null,
-
-        equipment: {
-
-            armor: null,
-
-            weapon: null,
-
-            astralBoard: null,
-
-            astralBike: null,
-
-            costume: null,
-
-            accessory: null,
-
-            wings: null
-
-        },
-
-        inventory: []
-
-    };
-
-}
