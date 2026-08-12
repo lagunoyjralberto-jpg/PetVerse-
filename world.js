@@ -1,259 +1,28 @@
-// =====================================
-// JUNAKIS : RISE OF LEGENDS
-// world.js
-// World & Movement System
-// =====================================
-
-
-// =====================================
-// WORLD DATA
-// =====================================
-
-const world = {
-
-    name: "JUNAKIS",
-
-    mapWidth: 20,
-
-    mapHeight: 20,
-
-    currentZone: "Whispering Forest"
-
-};
-
-
-// =====================================
-// PLAYER MOVEMENT
-// =====================================
-
-function movePlayer(direction) {
-
-    if(direction === "up") {
-
-        if(player.y > 0) {
-
-            player.y--;
-
-        }
-
-    }
-
-
-    if(direction === "down") {
-
-        if(player.y < world.mapHeight - 1) {
-
-            player.y++;
-
-        }
-
-    }
-
-
-    if(direction === "left") {
-
-        if(player.x > 0) {
-
-            player.x--;
-
-        }
-
-    }
-
-
-    if(direction === "right") {
-
-        if(player.x < world.mapWidth - 1) {
-
-            player.x++;
-
-        }
-
-    }
-
-
-    updateWorldScreen();
-
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+let player, keys = {}, platforms = [], monsters = [], gameRunning = false;
+function setupWorld() {
+    platforms = [{x:0,y:450,w:800,h:50},{x:150,y:370,w:120,h:20},{x:350,y:300,w:120,h:20},{x:550,y:230,w:120,h:20},{x:200,y:180,w:100,h:20}];
+    monsters = [{x:300,y:400,w:35,h:40,speed:1.5,dir:1,hp:3,color:'#ff2222'},{x:600,y:400,w:35,h:40,speed:2,dir:-1,hp:2,color:'#ff6600'},{x:400,y:250,w:30,h:35,speed:1,dir:1,hp:4,color:'#aa00ff'}];
 }
-
-
-// =====================================
-// CHANGE ZONE
-// =====================================
-
-function changeZone(zoneName) {
-
-    world.currentZone = zoneName;
-
-    updateWorldScreen();
-
+function loadPlayer(hero) {
+    player = new Player(50,350,hero); player.hp = 5; setupWorld(); gameRunning = true; gameLoop();
 }
-
-
-// =====================================
-// WORLD SCREEN
-// =====================================
-
-function updateWorldScreen() {
-
-    const worldElement =
-    document.getElementById("world-screen");
-
-
-    if(!worldElement) {
-
-        return;
-
-    }
-
-
-    worldElement.innerHTML = `
-
-    <div class="world-panel">
-
-        <h2>🌍 ${world.name}</h2>
-
-        <h3>🌲 ${world.currentZone}</h3>
-
-        <p>
-        📍 Position:
-        X: ${player.x}
-        |
-        Y: ${player.y}
-        </p>
-
-
-        <div class="movement-controls">
-
-            <button onclick="movePlayer('up')">
-            ⬆️
-            </button>
-
-            <br>
-
-            <button onclick="movePlayer('left')">
-            ⬅️
-            </button>
-
-            <button onclick="movePlayer('down')">
-            ⬇️
-            </button>
-
-            <button onclick="movePlayer('right')">
-            ➡️
-            </button>
-
-        </div>
-
-
-        <br>
-
-        <p>
-        Explore the world of JUNAKIS.
-        </p>
-
-    </div>
-
-    `;
-
+function checkCollision(a,b) {
+    return a.x < b.x+b.w && a.x+a.width > b.x && a.y < b.y+b.h && a.y+a.height > b.y;
 }
-
-
-// =====================================
-// KEYBOARD MOVEMENT
-// =====================================
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if(event.key === "ArrowUp") {
-
-            movePlayer("up");
-
-        }
-
-
-        if(event.key === "ArrowDown") {
-
-            movePlayer("down");
-
-        }
-
-
-        if(event.key === "ArrowLeft") {
-
-            movePlayer("left");
-
-        }
-
-
-        if(event.key === "ArrowRight") {
-
-            movePlayer("right");
-
-        }
-
-    }
-);
-
-
-// =====================================
-// WORLD ZONES
-// =====================================
-
-const worldZones = [
-
-    {
-        id: "whispering_forest",
-        name: "Whispering Forest",
-        level: 1
-    },
-
-    {
-        id: "crystal_valley",
-        name: "Crystal Valley",
-        level: 10
-    },
-
-    {
-        id: "dragon_mountains",
-        name: "Dragon Mountains",
-        level: 20
-    },
-
-    {
-        id: "shadow_realm",
-        name: "Shadow Realm",
-        level: 30
-    },
-
-    {
-        id: "ancient_kingdom",
-        name: "Ancient Kingdom",
-        level: 50
-    }
-
-];
-
-
-// =====================================
-// GET CURRENT ZONE
-// =====================================
-
-function getCurrentZone() {
-
-    return world.currentZone;
-
+function gameLoop() {
+    if(!gameRunning) return;
+    ctx.fillStyle = '#0f1925'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#2d5016'; platforms.forEach(p => ctx.fillRect(p.x,p.y,p.w,p.h));
+    monsters.forEach((m,i) => {
+        m.x += m.speed * m.dir; if(m.x < 100 || m.x > 700) m.dir *= -1;
+        ctx.fillStyle = m.color; ctx.fillRect(m.x,m.y,m.w,m.h);
+        if(checkCollision(player,m)) { player.hp--; player.x=50; if(player.hp<=0){alert('Natalo ka!');gameRunning=false;} }
+    });
+    player.update(keys,platforms); player.draw(ctx);
+    ctx.fillStyle='#fff'; ctx.font='16px Arial'; ctx.fillText(`Buhay: ${player.hp}`,20,30); ctx.fillText(`Kalaban: ${monsters.length}`,20,55);
+    requestAnimationFrame(gameLoop);
 }
-
-
-// =====================================
-// CHECK ZONE ACCESS
-// =====================================
-
-function canEnterZone(requiredLevel) {
-
-    return player.level >= requiredLevel;
-
-}
+document.addEventListener('keydown',e=>keys[e.key]=true);
+document.addEventListener('keyup',e=>keys[e.key]=false);
