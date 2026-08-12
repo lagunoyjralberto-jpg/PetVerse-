@@ -5,43 +5,43 @@ let platforms = [], monsters = [], gameRunning = false;
 let inventory = [], shopItems = [];
 
 const possibleLoot = [
-    {name: "Bakal", rarity: "Karaniwan", price: 5},
-    {name: "Kahoy na Matibay", rarity: "Karaniwan", price: 3},
-    {name: "Bato ng Kapangyarihan", rarity: "Bihira", price: 15},
-    {name: "Ginto", rarity: "Bihira", price: 25},
-    {name: "Balahibo ng Dragon", rarity: "Napakabihira", price: 100}
+    {name: "Bakal ng Kaharian", rarity: "Karaniwan", price: 8},
+    {name: "Matibay na Kahoy", rarity: "Karaniwan", price: 5},
+    {name: "Bato ng Mahika", rarity: "Bihira", price: 20},
+    {name: "Ginto ng Sinauna", rarity: "Bihira", price: 35},
+    {name: "Balahibo ng Dragon", rarity: "Napakabihira", price: 120}
 ];
 
 const craftList = [
-    {name: "Espada ng Bakal", need:["Bakal","Bakal","Kahoy na Matibay"], result:"Espada ng Bakal", price:30},
-    {name: "Kalasag", need:["Bakal","Bakal","Bakal"], result:"Matibay na Kalasag", price:50},
-    {name: "Sulo ng Apoy", need:["Bato ng Kapangyarihan","Kahoy na Matibay"], result:"Sulo ng Apoy", price:80}
+    {name: "Espada ng Mandirigma", need:["Bakal ng Kaharian","Bakal ng Kaharian","Matibay na Kahoy"], result:"Espada ng Mandirigma", price:45},
+    {name: "Kalasag ng Kaharian", need:["Bakal ng Kaharian","Bakal ng Kaharian","Bakal ng Kaharian"], result:"Matibay na Kalasag", price:70},
+    {name: "Sulo ng Mahika", need:["Bato ng Mahika","Matibay na Kahoy"], result:"Sulo ng Mahika", price:100}
 ];
 
 let quests = [
-    {id:1, name:"Unang Laban", desc:"Talo ang 3 Kalaban", target:3, progress:0, reward:50, done:false},
-    {id:2, name:"Mangangalakal", desc:"Kumuha ng 5 Bakal", target:5, progress:0, reward:30, done:false},
-    {id:3, name:"Panday", desc:"Gumawa ng 1 Espada ng Bakal", target:1, progress:0, reward:80, done:false},
-    {id:4, name:"Tagapagtatag", desc:"Gawing NFT ang 1 Gamit", target:1, progress:0, reward:100, done:false},
-    {id:5, name:"Mangangalakal", desc:"Magbenta ng 2 Gamit", target:2, progress:0, reward:60, done:false}
+    {id:1, name:"Unang Pakikipaglaban", desc:"Talo ang 5 Kalaban", target:5, progress:0, reward:80, done:false},
+    {id:2, name:"Mangangalakal", desc:"Kumuha ng 6 Bakal", target:6, progress:0, reward:50, done:false},
+    {id:3, name:"Panday ng Kaharian", desc:"Gumawa ng 1 Espada", target:1, progress:0, reward:120, done:false},
+    {id:4, name:"Tagapagtatag ng Kayamanan", desc:"Gawing NFT ang 1 Gamit", target:1, progress:0, reward:150, done:false},
+    {id:5, name:"Tunay na Mangangalakal", desc:"Magbenta ng 3 Gamit", target:3, progress:0, reward:100, done:false}
 ];
 
-// 📱 PINDUTAN SA CELLPHONE
+// 📱 PINDUTAN SA CELLPHONE - MAS MALAKI AT MALINAW
 function createMobileControls(){
     if(!document.getElementById('mobileControls')){
         let ctrl = document.createElement('div');
         ctrl.id = 'mobileControls';
-        ctrl.style.cssText = 'position:fixed; bottom:15px; left:0; right:0; display:flex; justify-content:space-between; padding:0 20px; z-index:9999;';
+        ctrl.style.cssText = 'position:fixed; bottom:20px; left:0; right:0; display:flex; justify-content:space-between; padding:0 25px; z-index:9999;';
         
         let dir = document.createElement('div');
-        dir.style.display = 'flex'; dir.style.gap = '10px';
+        dir.style.display = 'flex'; dir.style.gap = '15px';
         dir.append(makeBtn('⬅️', ()=>keys.left=true, ()=>keys.left=false));
         dir.append(makeBtn('➡️', ()=>keys.right=true, ()=>keys.right=false));
 
         let act = document.createElement('div');
-        act.style.display = 'flex'; act.style.gap = '10px';
+        act.style.display = 'flex'; act.style.gap = '15px';
         act.append(makeBtn('⬆️', ()=>keys.jump=true, ()=>keys.jump=false));
-        act.append(makeBtn('✨', ()=>keys.skill=true, ()=>{}));
+        act.append(makeBtn('⚡', ()=>keys.skill=true, ()=>{}));
 
         ctrl.append(dir, act);
         document.body.appendChild(ctrl);
@@ -51,27 +51,28 @@ function createMobileControls(){
 function makeBtn(txt, down, up){
     let b = document.createElement('button');
     b.innerText = txt;
-    b.style.cssText = 'width:65px; height:65px; font-size:28px; border-radius:50%; background:rgba(0,180,255,0.8); color:white; border:2px solid #00e5ff; touch-action:none;';
+    b.style.cssText = 'width:70px; height:70px; font-size:30px; border-radius:50%; background:rgba(20,20,40,0.9); color:#00e5ff; border:2px solid #00bcd4; touch-action:none;';
     b.addEventListener('touchstart', e=>{e.preventDefault(); down();});
     b.addEventListener('touchend', e=>{e.preventDefault(); up();});
     return b;
 }
 
-// 🗺️ BAGONG MAPA - HINDI NA PARANG SUPER MARIO!
+// 🗺️ MAPANG SERYOSO - HINDI NA PARANG LARO NG BATA
 function setupWorld() {
     platforms = [
         {x:0,y:450,w:800,h:50},
-        {x:80,y:380,w:100,h:15},
-        {x:250,y:330,w:80,h:15},
-        {x:400,y:270,w:110,h:15},
-        {x:600,y:350,w:90,h:15},
-        {x:150,y:200,w:70,h:15},
-        {x:500,y:180,w:80,h:15}
+        {x:50,y:370,w:120,h:18},
+        {x:220,y:310,w:90,h:18},
+        {x:380,y:250,w:130,h:18},
+        {x:600,y:340,w:100,h:18},
+        {x:120,y:180,w:80,h:18},
+        {x:480,y:160,w:90,h:18},
+        {x:680,y:200,w:70,h:18}
     ];
     monsters = [
-        {x:200,y:400,w:35,h:40,speed:1.2,dir:1,hp:5,color:'#aa2222'},
-        {x:500,y:400,w:35,h:40,speed:1.8,dir:-1,hp:4,color:'#cc5500'},
-        {x:420,y:220,w:30,h:35,speed:1,dir:1,hp:6,color:'#8822aa'}
+        {x:180,y:400,w:38,h:42,speed:1.1,dir:1,hp:8,color:'#4a0000'},
+        {x:550,y:400,w:38,h:42,speed:1.5,dir:-1,hp:7,color:'#5d2906'},
+        {x:420,y:200,w:32,h:38,speed:0.9,dir:1,hp:10,color:'#300060'}
     ];
 }
 
@@ -82,13 +83,13 @@ function loadPlayer(hero) {
 }
 
 function checkCollision(a,b) {
-    return a.x < b.x+b.w && a.x+a.width > b.x && a.y < b.y+b.h && a.y+a.height > b.y;
+    return a.x < b.x+b.w && a.x+a.width > b.x && a.y < b.y+b.h && a.y+this.height > b.y;
 }
 
 function dropLoot(x,y) {
     let item = possibleLoot[Math.floor(Math.random()*possibleLoot.length)];
     inventory.push({...item, x:x, y:y, isNFT:false});
-    if(item.name === "Bakal") updateQuest(2, 1);
+    if(item.name.includes("Bakal")) updateQuest(2, 1);
 }
 
 function updateQuest(id, dagdag){
@@ -98,42 +99,41 @@ function updateQuest(id, dagdag){
         if(q.progress >= q.target){
             q.done = true;
             player.gold += q.reward;
-            alert(`🎉 MISYON NATAPOS!\n${q.name}\nNakuha mo: ${q.reward} Ginto!`);
+            alert(`🏆 MISYON NATAPOS!\n${q.name}\nNakuha mo: ${q.reward} Ginto!`);
         }
     }
 }
 
 function gameLoop() {
     if(!gameRunning) return;
-    ctx.fillStyle = '#101522'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#0a0a1a'; ctx.fillRect(0,0,canvas.width,canvas.height);
     
-    // IBA ANG DISENYO NG LUPA AT BATO
+    // MAPANG MADILIM AT SERYOSO
     platforms.forEach(p => {
-        ctx.fillStyle = '#3a2f1f'; ctx.fillRect(p.x,p.y,p.w,p.h);
-        ctx.fillStyle = '#5a4f3f'; ctx.fillRect(p.x,p.y,p.w,4);
+        ctx.fillStyle = '#2c2416'; ctx.fillRect(p.x,p.y,p.w,p.h);
+        ctx.fillStyle = '#443a28'; ctx.fillRect(p.x,p.y,p.w,5);
     });
 
     monsters.forEach((m,i) => {
-        m.x += m.speed * m.dir; if(m.x < 50 || m.x > 750) m.dir *= -1;
+        m.x += m.speed * m.dir; if(m.x < 30 || m.x > 770) m.dir *= -1;
         ctx.fillStyle = m.color; ctx.fillRect(m.x,m.y,m.w,m.h);
-        ctx.fillStyle='#ff0000'; ctx.fillRect(m.x,m.y-8,m.w*(m.hp/6),4);
+        ctx.fillStyle='#ff1744'; ctx.fillRect(m.x,m.y-10,m.w*(m.hp/10),5);
 
-        if(checkCollision(player,m)) { player.hp--; player.x=50; if(player.hp<=0){alert('Natalo ka!');gameRunning=false;} }
+        if(checkCollision(player,m)) { player.hp--; player.x=50; if(player.hp<=0){alert('Natalo ka! Simulan muli ang paglalakbay.');gameRunning=false;} }
         
-        // KAPAG NAUBOS ANG BUHAY
         if(m.hp <= 0){
-            dropLoot(m.x,m.y); player.gold += 10;
+            dropLoot(m.x,m.y); player.gold += 15;
             updateQuest(1, 1);
             monsters.splice(i,1);
-            setTimeout(()=> monsters.push({x:Math.random()*600+100,y:400,w:35,h:40,speed:1+Math.random(),dir:1,hp:4+Math.floor(Math.random()*3),color:'#ff4466'}),4000);
+            setTimeout(()=> monsters.push({x:Math.random()*650+80,y:400,w:38,h:42,speed:1+Math.random()*0.8,dir:1,hp:6+Math.floor(Math.random()*5),color:'#550022'}),5000);
         }
     });
 
     inventory.forEach((it,i)=>{
-        ctx.fillStyle = it.isNFT ? '#ffd700' : '#ffaa00';
-        ctx.fillRect(it.x, it.y, 15,15);
-        if(checkCollision(player,{x:it.x,y:it.y,w:15,h:15})){
-            alert(`Nakuha mo: ${it.name} [${it.rarity}]`);
+        ctx.fillStyle = it.isNFT ? '#ffd600' : '#ffab00';
+        ctx.fillRect(it.x, it.y, 18,18);
+        if(checkCollision(player,{x:it.x,y:it.y,w:18,h:18})){
+            alert(`Nakuha mo: ${it.name}\nUri: ${it.rarity}`);
             inventory.splice(i,1); shopItems.push(it);
         }
     });
@@ -141,10 +141,10 @@ function gameLoop() {
     player.update(keys, platforms, monsters);
     player.draw(ctx);
     
-    ctx.fillStyle='#fff'; ctx.font='13px Arial';
-    ctx.fillText(`Buhay: ${player.hp} | Ginto: ${player.gold}`,10,20);
-    ctx.fillText(`Bayani: ${player.heroType} | Skill: ${player.skillName}`,10,40);
-    ctx.fillText(`M=Tindahan | C=Gawa | N=Mint | Q=Misyon`, 400, 20);
+    ctx.fillStyle='#e0e0e0'; ctx.font='14px Arial';
+    ctx.fillText(`Buhay: ${player.hp} | Ginto: ${player.gold}`,15,25);
+    ctx.fillText(`Bayani: ${player.heroType}`,15,45);
+    ctx.fillText(`M=Tindahan | C=Gawa | N=Mint | Q=Misyon`, 380, 25);
 
     requestAnimationFrame(gameLoop);
 }
@@ -168,21 +168,21 @@ document.addEventListener('keyup',e=>{
 
 function showQuests(){
     gameRunning=false;
-    let list = quests.map(q=>`${q.done?'✅':'🔴'} ${q.name}: ${q.desc} (${q.progress}/${q.target})`).join("\n");
-    alert(`=== MISYON ===\n\n${list}`);
+    let list = quests.map(q=>`${q.done?'✅':'🔴'} ${q.name}: ${q.desc} (${q.progress}/${q.target}) - ${q.reward} Ginto`).join("\n");
+    alert(`=== MGA MISYON NG JUNAKIS ===\n\n${list}`);
     gameRunning=true;
 }
 
 function mintItem(){
-    if(shopItems.length===0){alert('Wala kang gamit!');return;}
+    if(shopItems.length===0){alert('Wala kang gamit na maaaring gawing NFT!');return;}
     gameRunning=false;
-    let list = shopItems.map((it,i)=>`${i+1}. ${it.name} [${it.rarity}] ${it.isNFT?'✅ NFT':'🔴 Hindi pa'}`).join("\n");
-    let pick = prompt(`=== GAWING NFT ===\n${list}\nIlagay ang Numero:`);
+    let list = shopItems.map((it,i)=>`${i+1}. ${it.name} [${it.rarity}] ${it.isNFT?'✅ NAKATALA NA':'🔴 HINDI PA'}`).join("\n");
+    let pick = prompt(`=== PAGTATALA NG KAYAMANAN (MINT) ===\n\nPiliin ang gamit na nais mong gawing opisyal na ari-arian:\n${list}\n\nIlagay ang Numero:`);
     if(pick && shopItems[pick-1] && !shopItems[pick-1].isNFT){
-        if(confirm(`Sigurado ka bang i-mint ang ${shopItems[pick-1].name}?`)){
+        if(confirm(`Sigurado ka bang itatala bilang NFT ang:\n"${shopItems[pick-1].name}"?\nIto ay magiging opisyal na sa iyo at maaari nang ibenta sa merkado.`)){
             shopItems[pick-1].isNFT = true;
             updateQuest(4,1);
-            alert(`TAGUMPAY! Naging NFT na ito!`);
+            alert(`TAGUMPAY!\nAng "${shopItems[pick-1].name}" ay nakatala na bilang iyong ari-arian.`);
         }
     }
     gameRunning=true;
@@ -190,30 +190,30 @@ function mintItem(){
 
 function openMarketplace(){
     gameRunning = false;
-    let list = shopItems.map((it,i)=>`${i+1}. ${it.name} [${it.rarity}] - ${it.price} Ginto`).join("\n");
-    let pick = prompt(`=== JUNAKIS MARKETPLACE ===\n${list}\nIlagay ang Numero:`);
+    let list = shopItems.map((it,i)=>`${i+1}. ${it.name} [${it.rarity}] ${it.isNFT?'✅ NFT':'📦 Gamit'} - Halaga: ${it.price} Ginto`).join("\n");
+    let pick = prompt(`=== JUNAKIS MARKETPLACE ===\n\nMga Gamit na Pwedeng Ipagbenta:\n${list}\n\nIlagay ang Numero ng Ibibenta:`);
     if(pick && shopItems[pick-1]){
-        shopItems.splice(pick-1,1);
-        player.gold += shopItems[pick-1]?.price || 0;
+        let item = shopItems.splice(pick-1,1)[0];
+        player.gold += item.price;
         updateQuest(5,1);
-        alert(`Naibenta mo na!`);
+        alert(`Matagumpay na naibenta!\nNakuha mong ginto: ${item.price}`);
     }
     gameRunning = true;
 }
 
 function openCrafting(){
     gameRunning = false;
-    let list = craftList.map((cr,i)=>`${i+1}. ${cr.result} - Kailangan: ${cr.need.join(", ")}`).join("\n");
-    let pick = prompt(`=== PAGGAGAWA NG GAMIT ===\n${list}\nIlagay ang Numero:`);
+    let list = craftList.map((cr,i)=>`${i+1}. ${cr.result}\nKailangan: ${cr.need.join(", ")}`).join("\n\n");
+    let pick = prompt(`=== PAGGAGAWA NG SANDATA AT KAGAMITAN ===\n\nMaaari mong likhain:\n\n${list}\n\nIlagay ang Numero ng nais mong gawin:`);
     if(pick && craftList[pick-1]){
         let recipe = craftList[pick-1];
         let hasAll = recipe.need.every(req => shopItems.some(it=>it.name === req));
         if(hasAll){
             recipe.need.forEach(nam=>{ let idx = shopItems.findIndex(it=>it.name === nam); if(idx > -1) shopItems.splice(idx,1); });
-            shopItems.push({name:recipe.result, rarity:"Gawa", price:recipe.price, isNFT:false});
+            shopItems.push({name:recipe.result, rarity:"Gawang Kamay", price:recipe.price, isNFT:false});
             updateQuest(3,1);
-            alert(`Matagumpay na nagawa: ${recipe.result}!`);
-        }else{ alert("Kulang ang gamit!"); }
+            alert(`MATAGUMPAY NA NALIKHA!\nNagawa mo na ang: ${recipe.result}\nMaaari mo na itong gamitin o ibenta.`);
+        }else{ alert("Hindi sapat ang mga materyales na nasa iyong pag-aari."); }
     }
     gameRunning = true;
 }
