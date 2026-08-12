@@ -1,152 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>JUNAKIS: RISE OF LEGENDS</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUNAKIS: RISE OF LEGENDS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
-
-<div class="game-container">
-
-<header>
-
-<h1>⚔️ JUNAKIS: RISE OF LEGENDS ⚔️</h1>
-
-<h2>MMORPG WORLD</h2>
-
-<p>
-Forge Your Destiny. Rise Together.
-</p>
-
-</header>
-
-
-<main>
-
-<section class="hero-section">
-
-<h2>🌍 Welcome to JUNAKIS</h2>
-
-<p>
-Enter a legendary world filled with monsters,
-ancient kingdoms, powerful heroes and mysterious lands.
-</p>
-
-<button onclick="chooseHero()">
-🎮 ENTER THE WORLD
-</button>
-
-</section>
-
-
-<section class="features">
-
-<div class="feature">
-
-<h3>⚔️ HEROES</h3>
-
-<p>
-Choose your class and create your legend.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>🌲 WORLD</h3>
-
-<p>
-Explore forests, kingdoms and dangerous lands.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>👾 MONSTERS</h3>
-
-<p>
-Fight powerful monsters and earn EXP.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>🛡️ EQUIPMENT</h3>
-
-<p>
-Collect powerful armor and legendary weapons.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>🐾 PETS & MOUNTS</h3>
-
-<p>
-Travel with loyal pets and legendary mounts.
-</p>
-
-</div>
-
-
-<div class="feature">
-
-<h3>🛒 NFT MARKETPLACE</h3>
-
-<p>
-Connect your game items with Alberto NFT Marketplace.
-</p>
-
-</div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-<p>
-<strong>JUNAKIS: RISE OF LEGENDS</strong>
-</p>
-
-<p>
-Powered by Alberto Digital Art Work Studio
-</p>
-
-<p>
-© 2026 JUNAKIS MMORPG
-</p>
-
-</footer>
-
-</div>
-
-
-<script src="player.js"></script>
-
-<script src="world.js"></script>
-
-<script src="script.js"></script>
-
+    <div class="game-container">
+        <header>
+            <h1>JUNAKIS: RISE OF LEGENDS</h1>
+        </header>
+        <main>
+            <section class="hero-section" id="welcomeScreen">
+                <h2>🌍 Welcome to JUNAKIS</h2>
+                <p>Enter a legendary world filled with monsters, ancient kingdoms, powerful heroes and mysterious lands.</p>
+                <button onclick="showFeatures()">🎮 ENTER THE WORLD</button>
+            </section>
+            <section class="features" id="featuresScreen" style="display: none;">
+                <div class="feature"><h3>⚔️ HEROES</h3><p>Choose your class and create your legend.</p></div>
+                <div class="feature"><h3>🌲 WORLD</h3><p>Explore forests, kingdoms and dangerous lands.</p></div>
+                <div class="feature"><h3>👾 MONSTERS</h3><p>Fight powerful monsters and earn EXP.</p></div>
+                <div class="feature"><h3>🛡️ EQUIPMENT</h3><p>Collect powerful armor and legendary weapons.</p></div>
+                <div class="feature"><h3>🐾 PETS & MOUNTS</h3><p>Travel with loyal pets and legendary mounts.</p></div>
+                <div class="feature"><h3>🛒 NFT MARKETPLACE</h3><p>Connect your game items with Alberto NFT Marketplace.</p></div>
+                <button class="start-btn" onclick="chooseHero()">⚔️ START YOUR JOURNEY</button>
+            </section>
+            <section class="hero-select" id="heroSelect" style="display: none;">
+                <h2>CHOOSE YOUR LEGEND</h2>
+                <div class="hero-grid">
+                    <div class="hero-card" onclick="startGame('Warrior')"><h3>🛡️ WARRIOR</h3><p>High Defense • Strong Melee</p></div>
+                    <div class="hero-card" onclick="startGame('Mage')"><h3>🔮 MAGE</h3><p>Power Magic • Long Range</p></div>
+                    <div class="hero-card" onclick="startGame('Ranger')"><h3>🏹 RANGER</h3><p>Fast Speed • Precise Strikes</p></div>
+                </div>
+                <button class="back-btn" onclick="backToFeatures()">⬅️ BACK</button>
+            </section>
+            <canvas id="gameCanvas" width="800" height="500" style="display: none;"></canvas>
+        </main>
+        <footer>
+            <p><strong>JUNAKIS: RISE OF LEGENDS</strong></p>
+            <p>Powered by Alberto Digital Art Work Studio</p>
+            <p>© 2026 JUNAKIS MMORPG</p>
+        </footer>
+    </div>
+    <script src="player.js"></script>
+    <script src="world.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>
