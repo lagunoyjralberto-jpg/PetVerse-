@@ -1,39 +1,37 @@
 class Player {
     constructor(x, y, heroType) {
-        this.x = x; this.y = y; this.width = 40; this.height = 50;
-        this.speed = 5; this.jumpPower = 15; this.vy = 0; this.grounded = true; 
+        this.x = x; this.y = y; this.width = 35; this.height = 55;
+        this.speed = 5; this.jumpPower = 16; this.vy = 0; this.grounded = true; 
         this.heroType = heroType;
         this.attackCooldown = 0;
         this.skillCooldown = 0;
 
-        // KATANGIAN AT SKILLS NG BAWAT BAYANI
-        if(heroType === 'Warrior') { 
-            this.speed = 4; this.jumpPower = 14; this.damage = 2;
-            this.color = '#ff3333'; this.mark = '⚔️';
-            this.skillName = 'PAGBAGSAK';
-            this.skillDmg = 4;
+        // TUNAY NA KATANGIAN NG BAWAT BAYANI
+        if(heroType === 'WARRIOR') { 
+            this.speed = 4; this.jumpPower = 14; this.damage = 3;
+            this.color = '#b71c1c'; this.icon = '🛡️';
+            this.skillName = 'DAGITAB NG KATAPANGAN';
+            this.skillDmg = 6;
         }
-        if(heroType === 'Mage') { 
-            this.speed = 5; this.jumpPower = 16; this.damage = 1.5;
-            this.color = '#3366ff'; this.mark = '🔮';
-            this.skillName = 'BAGYO NG APOY';
+        if(heroType === 'MAGE') { 
+            this.speed = 5; this.jumpPower = 17; this.damage = 2;
+            this.color = '#1a237e'; this.icon = '🔮';
+            this.skillName = 'BAGYO NG KAGUBATAN';
+            this.skillDmg = 7;
+        }
+        if(heroType === 'RANGER') { 
+            this.speed = 7; this.jumpPower = 19; this.damage = 2.5;
+            this.color = '#1b5e20'; this.icon = '🏹';
+            this.skillName = 'PAGHABILIN NG KAGUBATAN';
             this.skillDmg = 5;
-        }
-        if(heroType === 'Ranger') { 
-            this.speed = 7; this.jumpPower = 18; this.damage = 1.2;
-            this.color = '#33cc33'; this.mark = '🏹';
-            this.skillName = 'PANALANGIN NG PALADIN';
-            this.skillDmg = 3;
         }
     }
 
     update(keys, platforms, monsters) {
-        // Galaw
         if(keys.left) this.x -= this.speed;
         if(keys.right) this.x += this.speed;
         if(keys.jump && this.grounded) { this.vy = -this.jumpPower; this.grounded = false; }
         
-        // Grabidad
         this.vy += 0.8; this.y += this.vy;
         this.grounded = false;
         platforms.forEach(p => {
@@ -42,53 +40,49 @@ class Player {
             }
         });
 
-        // HINDI LALABAS SA LARO
         if(this.x < 0) this.x = 0;
         if(this.x+this.width > canvas.width) this.x = canvas.width - this.width;
         if(this.y+this.height > canvas.height) { this.y = canvas.height - this.height; this.grounded = true; this.vy = 0; }
 
-        // ⚔️ AUTO ATTACK - KAPAG MALAPIT MAY KUSA NANG TATAMA
+        // AUTO ATTACK - SERYOSO AT MAY SAKIT
         if(this.attackCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+20)-(m.x+17), (this.y+25)-(m.y+20));
-                if(dist < 60){
+                let dist = Math.hypot((this.x+17)-(m.x+17), (this.y+27)-(m.y+20));
+                if(dist < 70){
                     m.hp -= this.damage;
-                    this.attackCooldown = 25;
+                    this.attackCooldown = 30;
                 }
             });
         }
         if(this.attackCooldown > 0) this.attackCooldown--;
         if(this.skillCooldown > 0) this.skillCooldown--;
 
-        // ✨ PINDUTIN SPACE O BUTTON PARA SA SKILL
+        // ESPESYAL NA KAKAYAHAN
         if(keys.skill && this.skillCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+20)-(m.x+17), (this.y+25)-(m.y+20));
-                if(dist < 120){
+                let dist = Math.hypot((this.x+17)-(m.x+17), (this.y+27)-(m.y+20));
+                if(dist < 140){
                     m.hp -= this.skillDmg;
                 }
             });
-            this.skillCooldown = 120;
+            this.skillCooldown = 150;
             keys.skill = false;
         }
     }
 
     draw(ctx) {
-        // Katawan
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        // Ulo at Tanda
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = '#e0e0e0';
         ctx.beginPath();
-        ctx.arc(this.x+20, this.y+12, 10, 0, Math.PI*2);
+        ctx.arc(this.x+17, this.y+12, 10, 0, Math.PI*2);
         ctx.fill();
         ctx.fillStyle = '#000';
-        ctx.font = 'bold 16px Arial';
+        ctx.font = 'bold 14px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText(this.mark, this.x+20, this.y+18);
-        // Ipakita kung handa na ang Skill
-        ctx.font = '11px Arial';
-        ctx.fillStyle = this.skillCooldown<=0 ? '#00ff88' : '#888';
-        ctx.fillText(this.skillName, this.x+20, this.y-5);
+        ctx.fillText(this.icon, this.x+17, this.y+17);
+        ctx.font = '10px Arial';
+        ctx.fillStyle = this.skillCooldown<=0 ? '#00e676' : '#616161';
+        ctx.fillText(this.skillName, this.x+17, this.y-5);
     }
 }
