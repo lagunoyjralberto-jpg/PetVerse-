@@ -1,86 +1,78 @@
 class Player {
     constructor(x, y, heroType) {
-        this.x = x; this.y = y; this.width = 32; this.height = 58;
-        this.speed = 5; this.jumpPower = 16; this.vy = 0; this.grounded = true; 
+        this.x = x; this.y = y; this.size = 36;
+        this.speed = 4;
         this.heroType = heroType;
         this.attackCooldown = 0;
         this.skillCooldown = 0;
 
         if(heroType === 'WARRIOR') { 
-            this.speed = 4; this.damage = 3;
-            this.color = '#790e0e'; this.acc = '#b71c1c';
+            this.damage = 3;
+            this.color = '#8B0000'; this.acc = '#CD5C5C';
             this.skillName = 'DAGITAB NG KATAPANGAN'; this.skillDmg = 6;
         }
         if(heroType === 'MAGE') { 
-            this.speed = 5; this.damage = 2;
-            this.color = '#0d1b4d'; this.acc = '#3949ab';
+            this.damage = 2;
+            this.color = '#00008B'; this.acc = '#6495ED';
             this.skillName = 'BAGYO NG KAGUBATAN'; this.skillDmg = 7;
         }
         if(heroType === 'RANGER') { 
-            this.speed = 7; this.damage = 2.5;
-            this.color = '#0d3d14'; this.acc = '#2e7d32';
+            this.damage = 2.5;
+            this.color = '#006400'; this.acc = '#90EE90';
             this.skillName = 'PAGHABILIN NG KAGUBATAN'; this.skillDmg = 5;
         }
     }
 
-    update(keys, platforms, monsters) {
-        // Galaw at Talon
+    update(keys, monsters) {
+        // 🎮 TOP-DOWN GALAW: Pataas, Pababa, Kaliwa, Kanan - WALA NANG TALON!
+        if(keys.up) this.y -= this.speed;
+        if(keys.down) this.y += this.speed;
         if(keys.left) this.x -= this.speed;
         if(keys.right) this.x += this.speed;
-        if(keys.jump && this.grounded) { this.vy = -this.jumpPower; this.grounded = false; }
-        
-        this.vy += 0.8; this.y += this.vy;
-        this.grounded = false;
-        platforms.forEach(p => {
-            if(this.x < p.x+p.w && this.x+this.width > p.x && this.y < p.y+p.h && this.y+this.height > p.y) {
-                if(this.vy > 0) { this.y = p.y - this.height; this.vy = 0; this.grounded = true; }
-            }
-        });
 
-        if(this.x < 0) this.x = 0;
-        if(this.x+this.width > canvas.width) this.x = canvas.width - this.width;
-        if(this.y+this.height > canvas.height) { this.y = canvas.height - this.height; this.grounded = true; this.vy = 0; }
+        // Huwag lumabas sa mapa
+        if(this.x < 20) this.x = 20;
+        if(this.x > canvas.width - 20) this.x = canvas.width - 20;
+        if(this.y < 20) this.y = 20;
+        if(this.y > canvas.height - 20) this.y = canvas.height - 20;
 
-        // ⚔️ AUTO ATTACK - BUMALIK NA AT MATIBAY NA
+        // ⚔️ AUTO ATTACK
         if(this.attackCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+16)-(m.x+16), (this.y+29)-(m.y+20));
-                if(dist < 75){
-                    m.hp -= this.damage;
-                    this.attackCooldown = 28;
-                }
+                let dist = Math.hypot(this.x - m.x, this.y - m.y);
+                if(dist < 60){ m.hp -= this.damage; this.attackCooldown = 25; }
             });
         }
         if(this.attackCooldown > 0) this.attackCooldown--;
         if(this.skillCooldown > 0) this.skillCooldown--;
 
-        // ✨ ESPESYAL NA KAKAYAHAN
+        // ✨ SKILL
         if(keys.skill && this.skillCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+16)-(m.x+16), (this.y+29)-(m.y+20));
-                if(dist < 150){
-                    m.hp -= this.skillDmg;
-                }
+                let dist = Math.hypot(this.x - m.x, this.y - m.y);
+                if(dist < 120){ m.hp -= this.skillDmg; }
             });
-            this.skillCooldown = 150;
-            keys.skill = false;
+            this.skillCooldown = 180; keys.skill = false;
         }
     }
 
     draw(ctx) {
-        // Baluti at Anyo
+        // Itsura na parang Realm Legend
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x+4, this.y+18, 24, 40);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 16, 0, Math.PI*2);
+        ctx.fill();
         ctx.fillStyle = this.acc;
-        ctx.fillRect(this.x+6, this.y+20, 20, 36);
-        // Ulo at Proteksyon
-        ctx.fillStyle = '#424242';
-        ctx.fillRect(this.x+8, this.y+4, 16, 16);
-        ctx.fillStyle = '#e0e0e0';
-        ctx.fillRect(this.x+10, this.y+6, 12, 12);
-        // Pangalan ng Kakayahan
-        ctx.font = 'bold 10px Arial';
-        ctx.fillStyle = this.skillCooldown<=0 ? '#00e676' : '#616161';
-        ctx.fillText(this.skillName, this.x+16, this.y-5);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 11, 0, Math.PI*2);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y-3, 6, 0, Math.PI*2);
+        ctx.fill();
+        ctx.font = 'bold 9px Arial';
+        ctx.fillStyle = this.skillCooldown<=0 ? '#00ff88' : '#555';
+        ctx.textAlign = 'center';
+        ctx.fillText(this.skillName, this.x, this.y-22);
     }
 }
