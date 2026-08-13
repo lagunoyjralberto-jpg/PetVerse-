@@ -1,33 +1,30 @@
 class Player {
     constructor(x, y, heroType) {
-        this.x = x; this.y = y; this.width = 35; this.height = 55;
+        this.x = x; this.y = y; this.width = 32; this.height = 58;
         this.speed = 5; this.jumpPower = 16; this.vy = 0; this.grounded = true; 
         this.heroType = heroType;
         this.attackCooldown = 0;
         this.skillCooldown = 0;
 
-        // TUNAY NA KATANGIAN NG BAWAT BAYANI
         if(heroType === 'WARRIOR') { 
-            this.speed = 4; this.jumpPower = 14; this.damage = 3;
-            this.color = '#b71c1c'; this.icon = '🛡️';
-            this.skillName = 'DAGITAB NG KATAPANGAN';
-            this.skillDmg = 6;
+            this.speed = 4; this.damage = 3;
+            this.color = '#790e0e'; this.acc = '#b71c1c';
+            this.skillName = 'DAGITAB NG KATAPANGAN'; this.skillDmg = 6;
         }
         if(heroType === 'MAGE') { 
-            this.speed = 5; this.jumpPower = 17; this.damage = 2;
-            this.color = '#1a237e'; this.icon = '🔮';
-            this.skillName = 'BAGYO NG KAGUBATAN';
-            this.skillDmg = 7;
+            this.speed = 5; this.damage = 2;
+            this.color = '#0d1b4d'; this.acc = '#3949ab';
+            this.skillName = 'BAGYO NG KAGUBATAN'; this.skillDmg = 7;
         }
         if(heroType === 'RANGER') { 
-            this.speed = 7; this.jumpPower = 19; this.damage = 2.5;
-            this.color = '#1b5e20'; this.icon = '🏹';
-            this.skillName = 'PAGHABILIN NG KAGUBATAN';
-            this.skillDmg = 5;
+            this.speed = 7; this.damage = 2.5;
+            this.color = '#0d3d14'; this.acc = '#2e7d32';
+            this.skillName = 'PAGHABILIN NG KAGUBATAN'; this.skillDmg = 5;
         }
     }
 
     update(keys, platforms, monsters) {
+        // Galaw at Talon
         if(keys.left) this.x -= this.speed;
         if(keys.right) this.x += this.speed;
         if(keys.jump && this.grounded) { this.vy = -this.jumpPower; this.grounded = false; }
@@ -44,24 +41,24 @@ class Player {
         if(this.x+this.width > canvas.width) this.x = canvas.width - this.width;
         if(this.y+this.height > canvas.height) { this.y = canvas.height - this.height; this.grounded = true; this.vy = 0; }
 
-        // AUTO ATTACK - SERYOSO AT MAY SAKIT
+        // ⚔️ AUTO ATTACK - BUMALIK NA AT MATIBAY NA
         if(this.attackCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+17)-(m.x+17), (this.y+27)-(m.y+20));
-                if(dist < 70){
+                let dist = Math.hypot((this.x+16)-(m.x+16), (this.y+29)-(m.y+20));
+                if(dist < 75){
                     m.hp -= this.damage;
-                    this.attackCooldown = 30;
+                    this.attackCooldown = 28;
                 }
             });
         }
         if(this.attackCooldown > 0) this.attackCooldown--;
         if(this.skillCooldown > 0) this.skillCooldown--;
 
-        // ESPESYAL NA KAKAYAHAN
+        // ✨ ESPESYAL NA KAKAYAHAN
         if(keys.skill && this.skillCooldown <= 0){
             monsters.forEach(m=>{
-                let dist = Math.hypot((this.x+17)-(m.x+17), (this.y+27)-(m.y+20));
-                if(dist < 140){
+                let dist = Math.hypot((this.x+16)-(m.x+16), (this.y+29)-(m.y+20));
+                if(dist < 150){
                     m.hp -= this.skillDmg;
                 }
             });
@@ -71,18 +68,19 @@ class Player {
     }
 
     draw(ctx) {
+        // Baluti at Anyo
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillRect(this.x+4, this.y+18, 24, 40);
+        ctx.fillStyle = this.acc;
+        ctx.fillRect(this.x+6, this.y+20, 20, 36);
+        // Ulo at Proteksyon
+        ctx.fillStyle = '#424242';
+        ctx.fillRect(this.x+8, this.y+4, 16, 16);
         ctx.fillStyle = '#e0e0e0';
-        ctx.beginPath();
-        ctx.arc(this.x+17, this.y+12, 10, 0, Math.PI*2);
-        ctx.fill();
-        ctx.fillStyle = '#000';
-        ctx.font = 'bold 14px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(this.icon, this.x+17, this.y+17);
-        ctx.font = '10px Arial';
+        ctx.fillRect(this.x+10, this.y+6, 12, 12);
+        // Pangalan ng Kakayahan
+        ctx.font = 'bold 10px Arial';
         ctx.fillStyle = this.skillCooldown<=0 ? '#00e676' : '#616161';
-        ctx.fillText(this.skillName, this.x+17, this.y-5);
+        ctx.fillText(this.skillName, this.x+16, this.y-5);
     }
 }
